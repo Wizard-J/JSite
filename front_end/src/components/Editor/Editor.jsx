@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Form } from "antd";
+import { Button , Form } from "antd";
 import Bar from "../Bar/Bar";
 import marked from "marked";
 import hljs from "highlight.js";
@@ -40,35 +40,23 @@ class Article extends Component {
 
 
     textChange = e => {
-
-        const otextarea = this._article_content;
+        /* 
+            输入文本时：
+            - 调整textarea高度
+            - 超出视口高度则显示滚动条
+        */
+        // 编辑区
+        const otextarea = this._text_area;
+        // console.log(otextarea)
         otextarea.style.height = otextarea.scrollHeight + "px";
-        const tscrollHeight = otextarea.scrollHeight;
-        const toffsetHeight = otextarea.offsetHeight;
-        const editor = tscrollHeight === toffsetHeight ? null : {scrollHeight:tscrollHeight,offsetHeight:toffsetHeight};
-        if(!editor) {// 没有滚动条，重置位置，解绑事件
-            this._preview.style.top = 0;
-            this._preview.onmousewheel = null;
-        }
-
-        // preview
-        const opreview = this._preview;
-        const scrollHeight = opreview.scrollHeight;
-        const offsetHeight = opreview.offsetHeight;
-        const preview = scrollHeight === offsetHeight ? null : {scrollHeight,offsetHeight};
-        if(!preview) {// 没有滚动条，重置位置，解绑事件
-            this._preview.style.top = 0;
-            this._preview.onmousewheel = null;
-        }
+        
+        
         this.setState({
             article:marked( e.target.value ),
-            preview,
-            editor
         })
     }
 
     render() {
-        const { TextArea } = Input;
         const { getFieldDecorator } = this.props.form;
 
         return (
@@ -85,10 +73,10 @@ class Article extends Component {
                         <Form onSubmit={this.handleSubmit} style={{height:"100%"}}>
                             <Form.Item >
                                 {getFieldDecorator('content')(
-                                    <div ref={_text => this._article_content = _text}>
-                                        <TextArea name="content" onChange={this.textChange} ref={_text => this._text_area = _text}/>
+                                    <div ref={_text => this._editor_box = _text}>
+                                        <textarea name="content" onChange={this.textChange} ref={_text => this._editor_textarea = _text}/>
                                         {
-                                            this.state.editor && <Bar preview={this._text_area}/>
+                                            this.state.editor && <Bar preview={this._editor_textarea}/>
                                         }
                                     </div>
                                 )}

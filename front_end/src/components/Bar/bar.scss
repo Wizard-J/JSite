@@ -1,0 +1,14 @@
+// 预览页滚动条
+.slide{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 0.06rem;
+    height: 100%;
+    .bar{
+        width: 100%;
+        background-color: #999;
+        position: relative;
+        top:0;
+    }
+}

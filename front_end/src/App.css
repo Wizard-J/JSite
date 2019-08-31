@@ -1,0 +1,49 @@
+html,body,div,h1,h2,h3,h4,h5,h6,img,a,i,b,html,ul,li,ol,button,textarea,main,span,code,section,em,hr,table,pre,blockquote,dl,strong,dl,dt,dd,q,tbody,th,tt,tr,td{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+html{
+  font-size: 100px;
+  font-family: Roboto Slab,Helvetica,Arial,sans-serif;
+  overflow: hidden;
+}
+body{
+  --code-font-family: Menlo,Monaco,Consolas,monospace;
+  --font-weight: 400;
+  --font-weight-bold: 700;
+  --font-weight-heading: 400;
+  --text-muted: #888;
+  --gray-bg: rgba(0,0,0,0.025);
+  --gray-text: #666;
+  --menu-text: #bbb;
+  --body-color: #333;
+  --body-bg: #fff;
+  --border-color: #ebebeb;
+  overflow-y: hidden;
+}
+a{
+  display: block;
+  text-decoration: none;
+}
+li{
+  list-style: none;
+}
+img{
+  text-align: top;
+}
+.App{
+  height: 100vh;
+  width: 100vw;
+}
+#root{
+  overflow-x: hidden;
+}
+
+.icon {
+  width: 1em; height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+

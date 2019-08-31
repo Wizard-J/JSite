@@ -1,0 +1,53 @@
+.side-bar{
+    overflow: hidden;
+    .sidebar-bg{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        a{
+            color: #fff;
+            border-bottom:1px solid rgba(#fff,0.2);
+        }
+        a:hover{
+            border-bottom:1px solid  rgba(#fff,0.7);
+        }
+        ul.sidebar-nav{
+            li{
+                font-family: Cambria, Cochin,Microsoft YaHei, Georgia, Times, 'Times New Roman', serif;
+                font-size: 0.2rem;
+                a{
+                    display: inline;
+                    padding: 0.04rem;
+                }
+                .avatar{
+                    cursor: pointer;
+                }
+            }
+            .sign{
+                font-size: 0.42rem;
+                cursor: pointer;
+            }
+            .motto{
+                margin-bottom: 0.16rem;
+                color: rgba(#fff, 0.75);
+            }
+        }
+        ul.sidebar-social{
+            margin-top: 0.1rem;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            li{
+                width: 0.51rem;
+                height: 0.68rem;
+                line-height: 0.68rem;
+                i{
+                    color: #fff;
+                    font-size: 0.23rem;
+                }
+            }
+        }
+    }
+}

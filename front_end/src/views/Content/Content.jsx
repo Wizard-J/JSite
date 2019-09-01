@@ -11,7 +11,7 @@ import "./content.scss";
 export default class Right extends Component {
     render() {
         return (
-            <div className="content" style={{height:1000}}>
+            <div className="content">
                 <Switch>
                     <Route path='/blogs' component={Blogs}/>
                     <Route path='/timeline' component={TimeLine}/>

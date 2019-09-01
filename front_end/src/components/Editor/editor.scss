@@ -1,11 +1,13 @@
 .editor{
     width: 100%;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
     .tools{
-        user-select: none;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        width: 100%;
+        user-select: none;
         background-color: rgba(#fff, 0.7);
         height: 0.5rem;
         padding: 0 0.2rem;
@@ -14,34 +16,42 @@
         }
     }
     .content-box{ // 显示区域
-        position: relative;
+        display: flex;
+        position: absolute;
+        top:0.5rem;
         width: 100%;
         height: calc(100vh - 0.5rem);
-        overflow: hidden;
-
-        #content-editor{ // 输入框
-            float: left;
-            width: 50vw;
-            height: 100%;
-            border-right: 0.05rem solid #fff;
-
+        background-color: #fff;
+        .editor-box{ // 编辑区
+            position: relative; // 滚动条定位
+            top: 0;
+            flex:1;
+            margin-right: 0.03rem;
+            background-color: rgba(238, 205, 168, 0.2);
+            overflow: hidden;
             textarea{
-                position: absolute;
-                // background-color: inherit;
-                
+                width: 100%;
+                background-color: transparent;
+                padding: 0.3rem;
+                position: absolute; // 预览区改变top值模拟滚动
+                overflow-y: hidden;
+                outline: none;
+                resize: none;
+                border: none;
+            }
+        }
+        .preview{
+            position: relative; // 滚动条定位
+            top: 0;
+            flex:1;
+            margin-left: 0.03rem;
+            background-color: rgba(238, 205, 168, 0.2);
+            .content-preview{
+                position: absolute;// 预览区改变top值模拟滚动
+                width: 100%;
+                padding: 0.3rem;
             }
         }
 
-        .preview{ // 预览区
-            float: right;
-            position: relative;
-            width: 50vw;
-            height: 100%;
-            .content-preview{
-                position: relative;
-                top:0;
-            }
-        }
-        
     }
 }

@@ -200,7 +200,7 @@ export default class Left extends Component {
                         <li className="hover-bottom"><NavLink to="/timeline">归档</NavLink></li>
                         <li className="hover-bottom"><NavLink to="/tags">标签</NavLink></li>
                         <li className="hover-bottom"><NavLink to="/logs">日志</NavLink></li>
-                        <li className="hover-bottom" onClick={this.openEditor}><NavLink to="/editor">写文章</NavLink></li>
+                        <li className="hover-bottom" onClick={this.openEditor}><NavLink to="/editorc">写文章</NavLink></li>
                     </ul>
                     <ul className="sidebar-social">
                         <li>

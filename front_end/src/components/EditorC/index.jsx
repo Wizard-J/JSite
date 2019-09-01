@@ -5,6 +5,8 @@ import highlight from 'highlight.js'
 
 import CodemirrorEditor, {CodemirrorHandler} from '../CodemirrorEditor'
 
+import {saveArticle} from "../../interfaces"
+
 require('codemirror/lib/codemirror.css')
 require('codemirror/theme/solarized.css')
 // 搜索 Ctrl-F (PC), Cmd-F (Mac)
@@ -51,6 +53,7 @@ export default class EditorC extends React.Component {
     super(props)
     this.state = {
       aceBoxH: null,
+      rawContent:'',
       previewContent: '',
       currentTabIndex: 1,
       hasContentChanged: false,
@@ -73,8 +76,8 @@ export default class EditorC extends React.Component {
     let state = this.state
     return [
       <header className="edit-header" key='header'>
-        <input type="text" className="title-input" placeholder="输入文章标题..." spellCheck="false"/>
-        <Button className="save-button" type="primary">保存</Button>
+        <input type="text" className="title-input" placeholder="输入文章标题..." spellCheck="false" ref={_title=>this._title=_title}/>
+        <Button className="save-button" type="primary" onClick={saveArticle}>保存</Button>
       </header>,
       <div className="editor-main-c" ref={node=>this.aceBox = node} style={{height: state.editorBoxH + 'px'}} key='main'>
         <div className="common-container editor-container" onMouseOver={this.setCurrentIndex.bind(this, 1)} ref={node=>this.editContainer=node}>
@@ -129,6 +132,7 @@ export default class EditorC extends React.Component {
   
   updateCode(newCode) {
     this.setState({
+      rawContent:newCode,
       previewContent: marked(newCode)
     })
     !this.state.hasContentChanged && (this.setState({hasContentChanged: true}))
@@ -175,4 +179,6 @@ export default class EditorC extends React.Component {
     cm.setCursor(lastLine, cm.getLine(lastLine).length - offset)
     this.updateCode(newValue)
   }
+
+  
 }

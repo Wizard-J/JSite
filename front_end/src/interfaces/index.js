@@ -9,7 +9,7 @@ export async function saveArticle(articleObj) {
     form.append("title",articleObj.title)
     form.append("author",articleObj.author?articleObj.author:"Wizard J")
     form.append("content",articleObj.content)
-    Axios.post("save/article",form)
+    return Axios.post("save/article",form)
         .then(res=>{
             console.log(res)
             if(res.data.status==="OK"){

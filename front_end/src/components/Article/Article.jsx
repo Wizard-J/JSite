@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import marked from "marked";
-import hljs from "highlight.js";
+import { markCode } from "../../interfaces/ariticle";
 import "./article.scss";
 
 export default class componentName extends Component {
@@ -11,22 +10,6 @@ export default class componentName extends Component {
     }
 
     componentDidMount(){
-
-        // marked相关配置
-        marked.setOptions({
-            renderer: new marked.Renderer(),
-            gfm: true,
-            tables: true,
-            breaks: true,
-            pedantic: false,
-            sanitize: true,
-            smartLists: true,
-            smartypants: false,
-            highlight: function(code) {
-                return hljs.highlightAuto(code).value;
-            },
-        });
-
         const articleId = parseInt(this.props.match.params.id);
         const articles = window.localStorage.getItem("articles") ? JSON.parse( window.localStorage.getItem("articles") ) : [];
         this.setState({
@@ -37,7 +20,7 @@ export default class componentName extends Component {
 
     render() {
         
-        const html =marked(this.props.articleContents);
+        const html = markCode(this.props.articleContents);
 
         return (
             <div className="article">

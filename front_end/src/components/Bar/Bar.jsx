@@ -9,7 +9,7 @@ export default class componentName extends Component {
     }
 
 
-    componentWillReceiveProps(nextProps,nextStates){
+    shouldComponentUpdate(nextProps,nextStates){
         const {box,text} = nextProps;
         
         // 获取文本域的高度

@@ -5,8 +5,6 @@ import highlight from 'highlight.js'
 
 import CodemirrorEditor, {CodemirrorHandler} from '../CodemirrorEditor'
 
-import {saveArticle} from "../../interfaces"
-
 require('codemirror/lib/codemirror.css')
 require('codemirror/theme/solarized.css')
 // 搜索 Ctrl-F (PC), Cmd-F (Mac)
@@ -33,7 +31,8 @@ require('codemirror/mode/sass/sass')
 require('codemirror/mode/xml/xml')
 require('codemirror/mode/markdown/markdown')
 
-require('../../statics/style/common.css')
+// require('../../statics/style/common.css')
+require("../../statics/style/common.scss")
 require('../../statics/style/js-highlight.css')
 require('./style.css')
 
@@ -60,7 +59,7 @@ export default class EditorC extends React.Component {
       scale: 1
     }
     this.CodemirrorOptions = {
-      lineNumbers: true,
+      lineNumbers: false,
       theme: 'solarized',
       tabSize: 2,
       lineWrapping: true,
@@ -76,8 +75,8 @@ export default class EditorC extends React.Component {
     let state = this.state
     return [
       <header className="edit-header" key='header'>
-        <input type="text" className="title-input" placeholder="输入文章标题..." spellCheck="false" ref={_title=>this._title=_title}/>
-        <Button className="save-button" type="primary" onClick={saveArticle}>保存</Button>
+        <input type="text" className="title-input" placeholder="不要吹灭你的灵感和你的想象力; 不要成为你的模型的奴隶。 ——文森特・梵高" spellCheck="false" ref={_title=>this._title=_title}/>
+        <Button className="save-button" type="primary" >保存</Button>
       </header>,
       <div className="editor-main-c" ref={node=>this.aceBox = node} style={{height: state.editorBoxH + 'px'}} key='main'>
         <div className="common-container editor-container" onMouseOver={this.setCurrentIndex.bind(this, 1)} ref={node=>this.editContainer=node}>

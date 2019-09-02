@@ -1,18 +1,22 @@
-.article-block{
+.article-block {
     .catalogue-item {
         border-bottom: 1px solid #e5e5e5;
         color: #555;
+        width: 100%;
         display: inline-block;
         padding: 0.32rem 0.5rem;
+        p {
+            color: #aaa;
+        }
         .catalogue-time {
             color: #aaa;
-            font-family: Palatino,"Palatino LT STD","Palatino Linotype","Book Antiqua","Georgia",serif;
+            font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", "Georgia", serif;
             letter-spacing: .5px;
         }
         .catalogue-title {
             color: #353535;
             display: block;
-            font-family: "Helvetica Neue","Segoe UI",Helvetica,Arial,sans-serif;
+            font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
             font-size: 0.32rem;
             font-weight: 700;
             margin: .08rem 0;
@@ -25,8 +29,8 @@
             display: block;
             width: 0.32rem;
         }
-        &:hover{
-            .catalogue-line{
+        &:hover {
+            .catalogue-line {
                 width: 0.8rem;
             }
         }

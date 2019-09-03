@@ -25,15 +25,16 @@ export function markCode(code) {
 }
 
 // 保存文章
-export async function saveArticle(articleObj) {
+export async function newArticle(articleObj) {
     const form = new FormData();
     form.append("title", articleObj.title)
     form.append("author", articleObj.author ? articleObj.author : "Wizard J")
     form.append("content", articleObj.content)
-    return Axios.post("/save/article", form)
+    form.append("tagId", articleObj.tagId)
+    return Axios.post("/new/article", form)
 }
 
 // 获取文章列表
-export async function listArticle(pageNum) {
+export async function listArticles(pageNum) {
     return Axios.get("/list/articles?page=" + pageNum)
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ArticleBlock from "../../components/ArticleBlock/ArticleBlock";
-import { listArticle } from "../../interfaces/ariticle"
+import { listArticles } from "../../interfaces/ariticle"
 
 export default class componentName extends Component {
 
@@ -10,12 +10,10 @@ export default class componentName extends Component {
 
     componentDidMount(){
         this.getArticle(1)
-
     }
 
     getArticle(pageNum){
-        listArticle(pageNum).then(res=>{
-            console.log(res)
+        listArticles(pageNum).then(res=>{
             this.setState({
                 data:res.data.result
             })

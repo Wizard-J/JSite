@@ -15,12 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from . import user, article_api
+from . import user, article_api, tag_api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('get/sign', user.get_sign),
 
     # 文章接口
+    path("new/article", article_api.new_article), # 新建文章
     path("list/articles", article_api.list_articles), # 获取文章列表
+
+    # 标签接口
+    path("new/tag", tag_api.new_tag), # 新建标签
+    path("list/tags", tag_api.list_tags), # 获取标签列表
+    
 ]

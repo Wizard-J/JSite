@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Avatar , Popover} from 'antd';
 import { NavLink } from "react-router-dom";
+import { getUser } from "../../interfaces/user"
 
-import Axios from "axios";
 import "./sidebar.scss";
 
 export default class Left extends Component {
@@ -179,11 +179,14 @@ export default class Left extends Component {
         }
 
         // 获取昵称
-        Axios.get("/get/sign?uins=79328210")
+        getUser(79328210)
             .then(res => {
                 this.setState({
                     nikeName: res.data.message
                 })
+                window.wizard_blog = {
+                    "user" : res.data.message
+                }
             })
 
     }

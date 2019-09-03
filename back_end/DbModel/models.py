@@ -16,6 +16,7 @@ class Article(models.Model):
 
 # 标签类
 class Tag(models.Model):
+    color = models.CharField(max_length=7,default="gold") # 标签颜色
     name = models.CharField(max_length=20, default="其它") # 标签内容
     createdAt = models.DateTimeField("创建时间",auto_now_add=True) # 创建时间
     createdBy = models.CharField(max_length=50) # 创建者

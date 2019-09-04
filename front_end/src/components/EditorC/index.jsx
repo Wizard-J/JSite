@@ -36,7 +36,7 @@ require('codemirror/mode/markdown/markdown')
 // require('../../statics/style/common.css')
 require("../../statics/style/common.scss")
 require('../../statics/style/js-highlight.css')
-require('./style.css')
+require('./style.scss')
 
 highlight.configure({
   tabReplace: '  ',
@@ -57,6 +57,7 @@ export default class EditorC extends React.Component {
       rawContent:'',
       previewContent: '',
       tags:[],
+      tagSelected:"",
       currentTabIndex: 1,
       hasContentChanged: false,
       scale: 1
@@ -83,9 +84,8 @@ export default class EditorC extends React.Component {
         <Input placeholder="署名" ref={_author => this._author = _author}/>
         <Select
           showSearch
-          value={this.state.value}
-          placeholder={"标签"}
           style={{width:"100%"}}
+          placeholder={"标签"}
           defaultActiveFirstOption={false}
           showArrow={false}
           filterOption={false}
@@ -101,7 +101,7 @@ export default class EditorC extends React.Component {
     return [
       <header className="edit-header" key='header'>
         <input type="text" className="title-input" placeholder="不要吹灭你的灵感和你的想象力; 不要成为你的模型的奴隶。 ——文森特・梵高" spellCheck="false" ref={_title=>this._title=_title}/>
-        <Popover className="save-button" content={popContent} title="biu biu biu" trigger="click">
+        <Popover className="save-button" content={popContent} title="biu biu biu" trigger="click" placement="bottomRight">
           <Button onClick={this.newArticle}>保存</Button>
         </Popover>
       </header>,

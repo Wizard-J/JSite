@@ -1,7 +1,9 @@
 import React from 'react'
 import marked from 'marked'
-import { Button } from "antd"
+import { Popover, Button, Select, message, Input } from "antd"
 import highlight from 'highlight.js'
+import { newArticle } from '../../interfaces/ariticle'
+import { listTags } from "../../interfaces/tags"
 
 import CodemirrorEditor, {CodemirrorHandler} from '../CodemirrorEditor'
 
@@ -54,6 +56,7 @@ export default class EditorC extends React.Component {
       aceBoxH: null,
       rawContent:'',
       previewContent: '',
+      tags:[],
       currentTabIndex: 1,
       hasContentChanged: false,
       scale: 1
@@ -72,11 +75,35 @@ export default class EditorC extends React.Component {
     }
   }
 	render () {
-    let state = this.state
+    let state = this.state;
+    const { Option } = Select;
+    
+    const popContent = (
+      <div className="pop-over">
+        <Input placeholder="署名" ref={_author => this._author = _author}/>
+        <Select
+          showSearch
+          value={this.state.value}
+          placeholder={"标签"}
+          style={{width:"100%"}}
+          defaultActiveFirstOption={false}
+          showArrow={false}
+          filterOption={false}
+          onSearch={this.handleSearch}
+          onChange={this.handleChange}
+          notFoundContent={"输入内容以新建"}
+        >
+          {this.state.tags.map((item,index) => <Option key={item.id}>{item.name}</Option>)}
+        </Select>
+        <Button type="primary">确认</Button>
+      </div>
+    );
     return [
       <header className="edit-header" key='header'>
         <input type="text" className="title-input" placeholder="不要吹灭你的灵感和你的想象力; 不要成为你的模型的奴隶。 ——文森特・梵高" spellCheck="false" ref={_title=>this._title=_title}/>
-        <Button className="save-button" type="primary" >保存</Button>
+        <Popover className="save-button" content={popContent} title="biu biu biu" trigger="click">
+          <Button onClick={this.newArticle}>保存</Button>
+        </Popover>
       </header>,
       <div className="editor-main-c" ref={node=>this.aceBox = node} style={{height: state.editorBoxH + 'px'}} key='main'>
         <div className="common-container editor-container" onMouseOver={this.setCurrentIndex.bind(this, 1)} ref={node=>this.editContainer=node}>
@@ -101,6 +128,19 @@ export default class EditorC extends React.Component {
     this.setState({
       editorBoxH: document.documentElement.clientHeight - document.querySelector('.edit-header').offsetHeight
     })
+    // 获取标签列表
+    listTags()
+      .then(res => {
+        if(res.data.status === "OK"){
+          this.setState({
+            tags:res.data.result
+          })
+        }else{
+          throw new Error(res.data.message)
+        }
+      }).catch(err => {
+        message.error(err)
+      })
   }
 
   setCurrentIndex(index) {
@@ -178,6 +218,33 @@ export default class EditorC extends React.Component {
     cm.setCursor(lastLine, cm.getLine(lastLine).length - offset)
     this.updateCode(newValue)
   }
+
+
+  // 保存文章动作
+  newArticle = () => {
+    const newItem = {
+      title : this._title.value,
+      content: this.state.rawContent
+    }
+    console.log(newItem)
+    // newArticle()
+
+  }
+
+  // 标签搜索
+  handleSearch = value => {
+    // if (value) {
+    //   fetch(value, data => this.setState({ data }));
+    // } else {
+    //   this.setState({ data: [] });
+    // }
+  };
+
+  // 标签变化
+  handleChange = value => {
+    console.log(value)
+    // this.setState({ value });
+  };
 
   
 }

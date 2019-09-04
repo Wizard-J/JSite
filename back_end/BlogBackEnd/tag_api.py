@@ -20,11 +20,22 @@ def new_tag(request):
     name = request.POST['name']
     color = request.POST['color']
     createdBy = request.POST['createdBy']
-    result = {}
-    newtag = Tag.objects.create(name=name,color=color,createdBy=createdBy)
+    try:
+        newtag = Tag.objects.create(name=name,color=color,createdBy=createdBy)
+        result = model_to_dict(newtag)
+        result["createdAt"] = newtag.createdAt.strftime("%Y-%m-%d %H:%M:%S")
 
-    for field in newtag:
-        result[field] = newtag[field]
-    result["createdAt"] = newtag.createdAt.strftime("%Y-%m-%d %H:%M:%S")
+        return HttpResponse(json.dumps({"status":"OK","result":result}))
+    except:
+        return HttpResponse(json.dumps({"status":"ERROR","message":"输入标签数据有误"}))
 
-    return HttpResponse(json.dumps({"status":"OK","result":result}))
+# 删除标签
+def del_tag(request):
+    id = request.GET["id"]
+    try:
+        Tag.objects.get(id=id).delete()
+        return HttpResponse(json.dumps({"status":"OK"}))
+    except:
+        return HttpResponse(json.dumps({"status":"ERROR","message":"Tag ID有误或数据库连接异常"}))
+
+

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Tag, Icon, Input } from 'antd';
-import { newTag } from "../../interfaces/tags";
+import { Tag, Icon, Input, message } from 'antd';
+import { newTag, listTags, delTag } from "../../interfaces/tags";
 import "./tags.scss";
 
 export default class componentName extends Component {
@@ -12,11 +12,11 @@ export default class componentName extends Component {
     }
 
 
-    handleClose = removedTag => {
-        const tags = this.state.tags.filter(tag => tag !== removedTag);
-        console.log(tags);
-        this.setState({ tags });
-    };
+    // handleClose = removedTag => {
+    //     const tags = this.state.tags.filter(tag => tag !== removedTag);
+    //     // console.log(tags);
+    //     this.setState({ tags });
+    // };
 
     showInput = () => {
         this.setState({ inputVisible: true }, () => this.input.focus());
@@ -25,9 +25,9 @@ export default class componentName extends Component {
     handleInputChange = e => {
         this.setState({ inputValue: e.target.value });
     };
-    
+
     handleInputBlur = e => {
-        this.setState({inputVisible: false,inputValue: ''})
+        this.setState({ inputVisible: false, inputValue: '' })
     }
 
     // 新建tag
@@ -35,23 +35,31 @@ export default class componentName extends Component {
         const tagName = this.state.inputValue;
         let { tags } = this.state;
         let createdBy;
-        if(window.wizard_blog) createdBy = window.wizard_blog.user;
-        const newItem = {
+        if (window.wizard_blog) createdBy = window.wizard_blog.user;
+        let newItem = {
             createdBy,
             color: this.getColor(),
             name: tagName
         }
-        newTag(newItem).then(res=>{
-            console.log(res)
+
+        newTag(newItem).then(res => {
+            if (res.data.status !== "OK") {
+                // 创建失败
+                throw new Error(res.data.message)
+            } else { // 创建成功
+                newItem = res.data.result;
+                tags = [...tags, newItem]
+                this.setState({
+                    tags,
+                    inputVisible: false,
+                    inputValue: '',
+                });
+            }
+        }).catch(err => {
+            console.log(err)
+            message.error("创建标签失败服务器异常")
         })
-        
-        tags = [...tags, newTag]
-        
-        this.setState({
-            tags,
-            inputVisible: false,
-            inputValue: '',
-        });
+
     };
 
     saveInputRef = input => (this.input = input);
@@ -68,26 +76,41 @@ export default class componentName extends Component {
     }
 
     // 删除tag
-    delTag = (index,e) => {
-        e.preventDefault();
-        // console.log(index);
-        const deletedTag = this.state.tags[index];
-        console.log(deletedTag)  
+    delTag = (id, index, e) => {
+        // e.preventDefault();
+        delTag(id)
+            .then(res => {
+                // console.log(res)
+                if (res.data.status !== "OK") { // 删除失败
+                    throw new Error(res.data.message)
+                } else {
+                    // 删除标签
+                    const tags = this.state.tags;
+                    tags.splice(index, 1);
+                    this.setState({ tags });
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                message.error(err)
+            })
     }
 
     componentDidMount() {
         // 获取标签数据
-        const tags = []
-        for (let i = 0; i < 4; i++) {
-            const color = this.getColor();
-            tags[i] = {
-                color,
-                name: color
-            }
-        }
-        this.setState({
-            tags
-        })
+        listTags()
+            .then(res => {
+                if (res.data.status === "OK") {
+                    this.setState({
+                        tags: res.data.result
+                    })
+                } else {
+                    throw new Error(res.data.message)
+                }
+            }).catch(err => {
+                console.log(err)
+                message.warn("服务器异常")
+            })
     }
 
     render() {
@@ -112,7 +135,7 @@ export default class componentName extends Component {
                 <div>
                     {
                         tags.map((item, index) => {
-                            return (<Tag key={item.color} closable onClose={this.delTag.bind(this,index)} color={item.color}>{item.name}</Tag>)
+                            return (<Tag key={item.color} closable onClose={this.delTag.bind(this, item.id, index)} color={item.color}>{item.name}</Tag>)
                         })
                     }
                 </div>

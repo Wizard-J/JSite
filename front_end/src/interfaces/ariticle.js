@@ -3,6 +3,10 @@ import marked from "marked";
 import hljs from "highlight.js";
 
 // 保存各种接口
+const cookie = document.cookie;
+const reg = /csrftoken=(?<csrftoken>.+)/
+const CSRFTOKEN = reg.exec(cookie).groups.csrftoken
+
 
 // marked相关配置
 marked.setOptions({

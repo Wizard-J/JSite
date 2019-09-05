@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { Tag, Icon, Input, message } from 'antd';
 import { newTag, listTags, delTag } from "../../interfaces/tags";
+import TagUtil from "../../local/tagUtils"
 import "./tags.scss";
 
 export default class componentName extends Component {
+
+    _UNMOUNTED = false; // 组件卸载标记
+
+    componentWillUnmount(){
+        this._UNMOUNTED = true;
+    }
 
     state = {
         tags: [],
         inputVisible: false,
         inputValue: '',
     }
-
-
-    // handleClose = removedTag => {
-    //     const tags = this.state.tags.filter(tag => tag !== removedTag);
-    //     // console.log(tags);
-    //     this.setState({ tags });
-    // };
 
     showInput = () => {
         this.setState({ inputVisible: true }, () => this.input.focus());
@@ -43,12 +43,13 @@ export default class componentName extends Component {
         }
 
         newTag(newItem).then(res => {
-            if (res.data.status !== "OK") {
-                // 创建失败
+            if (res.data.status !== "OK") { // 创建失败
                 throw new Error(res.data.message)
             } else { // 创建成功
                 newItem = res.data.result;
                 tags = [...tags, newItem]
+                TagUtil.create(newItem); // 本地保存
+                if(this._UNMOUNTED) return;
                 this.setState({
                     tags,
                     inputVisible: false,
@@ -87,7 +88,9 @@ export default class componentName extends Component {
                     // 删除标签
                     const tags = this.state.tags;
                     tags.splice(index, 1);
+                    if(this._UNMOUNTED) return;
                     this.setState({ tags });
+                    TagUtil.delete(id); // 本地缓存
                 }
             })
             .catch(err => {
@@ -98,12 +101,20 @@ export default class componentName extends Component {
 
     componentDidMount() {
         // 获取标签数据
+        if(TagUtil.getList()){
+            this.setState({
+                tags: TagUtil.getList()
+            })
+            return;
+        }
         listTags()
             .then(res => {
                 if (res.data.status === "OK") {
+                    if(this._UNMOUNTED) return;
                     this.setState({
                         tags: res.data.result
                     })
+                    TagUtil.save(res.data.result)
                 } else {
                     throw new Error(res.data.message)
                 }

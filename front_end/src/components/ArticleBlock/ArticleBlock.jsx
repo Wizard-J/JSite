@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
 import { markCode } from "../../interfaces/ariticle";
+import { Tag } from "antd";
 import "./articleblock.scss";
 
 export default class componentName extends Component {
 
     render() {
+
+        const tag = this.props.tags
 
         return (
             <div className="article-block">
@@ -17,7 +20,9 @@ export default class componentName extends Component {
                     </NavLink>
                     <div className="catalogue-line"></div>
 
-                    <p dangerouslySetInnerHTML={{__html:markCode(this.props.content).substring(0,300)}}/>
+                    <p dangerouslySetInnerHTML={{__html:markCode(this.props.content).substring(0,100)}}/>
+
+                    <Tag color={tag.color}>{tag.name}</Tag>
 
                 </div>
 

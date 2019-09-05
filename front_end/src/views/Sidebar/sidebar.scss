@@ -1,51 +1,72 @@
-.side-bar{
+.side-bar {
     overflow: hidden;
-    .sidebar-bg{
+    position: fixed;
+    z-index: 1;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(200, 150, 100, 1);
+    top: 0;
+    left: 0;
+    cursor: grab;
+    transition: width 1s, top 1s;
+    -webkit-transition: width 1s, top 1s;
+    transition-timing-function: ease-in-out;
+    -webkit-transition-timing-function: ease-in-out;
+    -webkit-overflow-scrolling: touch;
+    .sidebar-bg {
+        position: absolute;
+        width: 100vw;
+        height: 100%;
+        top: 0;
+        left: calc(50% - 50vw);
+        background: #202020 url("../../statics/img/sidebar-bg.jpg") center/cover no-repeat;
         display: flex;
         flex-direction: column;
         justify-content: center;
         text-align: center;
-        a{
+        a {
             color: #fff;
-            border-bottom:1px solid rgba(#fff,0.2);
+            border-bottom: 1px solid rgba(#fff, 0.2);
         }
-        a:hover{
-            border-bottom:1px solid  rgba(#fff,0.7);
+        a:hover {
+            border-bottom: 1px solid rgba(#fff, 0.7);
         }
-        ul.sidebar-nav{
-            li{
-                font-family: Cambria, Cochin,Microsoft YaHei, Georgia, Times, 'Times New Roman', serif;
+        ul.sidebar-nav {
+            li {
+                font-family: Cambria, Cochin, Microsoft YaHei, Georgia, Times, 'Times New Roman', serif;
                 font-size: 0.2rem;
-                a{
+                a {
                     display: inline;
                     padding: 0.04rem;
                 }
-                .avatar{
+                .avatar {
                     cursor: pointer;
                 }
             }
-            .sign{
+            .sign {
                 font-size: 0.42rem;
                 cursor: pointer;
             }
-            .motto{
+            .motto {
                 margin-bottom: 0.16rem;
                 color: rgba(#fff, 0.75);
             }
         }
-        ul.sidebar-social{
+        ul.sidebar-social {
             margin-top: 0.1rem;
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            li{
+            li {
                 width: 0.51rem;
                 height: 0.68rem;
                 line-height: 0.68rem;
-                i{
-                    color: #fff;
-                    font-size: 0.23rem;
+                div {
+                    i {
+                        color: #fff;
+                        font-size: 0.23rem;
+                    }
                 }
             }
         }

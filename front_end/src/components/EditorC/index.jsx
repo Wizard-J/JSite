@@ -4,6 +4,9 @@ import { Popover, Button, Select, message, Input } from "antd"
 import highlight from 'highlight.js'
 import { newArticle } from '../../interfaces/ariticle'
 import { listTags } from "../../interfaces/tags"
+import Tag from "../../local/tagUtils"
+import Article from "../../local/articleUtil"
+
 
 import CodemirrorEditor, {CodemirrorHandler} from '../CodemirrorEditor'
 
@@ -50,6 +53,9 @@ marked.setOptions({
 })
 
 export default class EditorC extends React.Component {
+
+  _UNMOUNTED = false;
+
   constructor(props) {
     super(props)
     this.state = {
@@ -95,14 +101,14 @@ export default class EditorC extends React.Component {
         >
           {this.state.tags.map((item,index) => <Option key={item.id}>{item.name}</Option>)}
         </Select>
-        <Button type="primary">确认</Button>
+        <Button type="primary" onClick={this.newArticle}>确认</Button>
       </div>
     );
     return [
       <header className="edit-header" key='header'>
         <input type="text" className="title-input" placeholder="不要吹灭你的灵感和你的想象力; 不要成为你的模型的奴隶。 ——文森特・梵高" spellCheck="false" ref={_title=>this._title=_title}/>
         <Popover className="save-button" content={popContent} title="biu biu biu" trigger="click" placement="bottomRight">
-          <Button onClick={this.newArticle}>保存</Button>
+          <Button>保存</Button>
         </Popover>
       </header>,
       <div className="editor-main-c" ref={node=>this.aceBox = node} style={{height: state.editorBoxH + 'px'}} key='main'>
@@ -123,24 +129,37 @@ export default class EditorC extends React.Component {
       </div>
     ]
   }
+  componentWillUnmount(){
+    this._UNMOUNTED = true;
+    window._wizard.enableMenu();
+  }
 
   componentDidMount() {
+    window._wizard.disableMenu();
     this.setState({
       editorBoxH: document.documentElement.clientHeight - document.querySelector('.edit-header').offsetHeight
     })
     // 获取标签列表
-    listTags()
-      .then(res => {
-        if(res.data.status === "OK"){
-          this.setState({
-            tags:res.data.result
-          })
-        }else{
-          throw new Error(res.data.message)
-        }
-      }).catch(err => {
-        message.error(err)
+    if(Tag.getList()){ // 本地获取
+      this.setState({
+        tags:Tag.getList()
       })
+      return;
+    }else{ // 服务器获取
+      listTags()
+        .then(res => {
+          if(this._UNMOUNTED) return;
+          if(res.data.status === "OK"){
+            this.setState({
+              tags:res.data.result
+            })
+          }else{
+            throw new Error(res.data.message)
+          }
+        }).catch(err => {
+          message.error(err)
+        })
+    }
   }
 
   setCurrentIndex(index) {
@@ -223,16 +242,27 @@ export default class EditorC extends React.Component {
   // 保存文章动作
   newArticle = () => {
     const newItem = {
+      author : this._author.value,
+      tagId : this.state.tagSelected,
       title : this._title.value,
       content: this.state.rawContent
     }
-    console.log(newItem)
-    // newArticle()
+    newArticle(newItem)
+      .then(res=>{
+        console.log(res)
+        if(res.data.status==="OK"){
+          message.success("发表成功")
+          Article.create(res.data.result);
+          this.props.history.push("/blogs")
+        }
+      })
 
   }
 
   // 标签搜索
   handleSearch = value => {
+    // console.log(">>>",value)
+
     // if (value) {
     //   fetch(value, data => this.setState({ data }));
     // } else {
@@ -242,8 +272,9 @@ export default class EditorC extends React.Component {
 
   // 标签变化
   handleChange = value => {
-    console.log(value)
-    // this.setState({ value });
+    this.setState({
+      tagSelected:value
+    })
   };
 
   

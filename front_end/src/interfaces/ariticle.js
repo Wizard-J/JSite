@@ -35,6 +35,7 @@ export async function newArticle(articleObj) {
     form.append("author", articleObj.author ? articleObj.author : "Wizard J")
     form.append("content", articleObj.content)
     form.append("tagId", articleObj.tagId)
+    form.append("csrfmiddlewaretoken", CSRFTOKEN)
     return Axios.post("/new/article", form)
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Avatar , Popover} from 'antd';
+import { Avatar , Tooltip } from 'antd';
 import { NavLink } from "react-router-dom";
 import { getUser } from "../../interfaces/user"
 
@@ -87,17 +87,95 @@ export default class Left extends Component {
         oleft.style.width = "0vw";
     }
 
-    // 打开编辑器
-    openEditor = e =>{
+
+
+    // 禁用菜单
+    disableMenu = e =>{
         window.onmousewheel = null; // 锁定菜单
         this.hideMenu();
     }
 
+    // 激活菜单
+    enableMenu = e=>{
+        const viewPortWidth = document.body.clientWidth;
+        const viewPortHeight = document.body.clientHeight;
+        const ocontent = document.getElementsByClassName("content")[0];
+        if (viewPortHeight <= viewPortWidth) {
+            // 横屏
+            this._left.style.width = "25vw";
+            this.foldMenu(); // 向左收起菜单
+            ocontent.style.left="25vw";
+        }else{
+            this._left.style.width = "100vw";
+            this.liftMenu();//上拉菜单到顶部
+            ocontent.style.left="0";
+        }
+    }
+
     componentDidMount() {
         // 将封装好的事件存储到window对象下，供其他组件使用
-        window.blog = { openEditor:this.openEditor,hideMenu:this.hideMenu,pullMenu:this.pullMenu,liftMenu:this.liftMenu,foldMenu:this.foldMenu,unfoldMenu:this.unfoldMenu }
-        
+        window._wizard = { disableMenu:this.disableMenu,enableMenu:this.enableMenu,hideMenu:this.hideMenu,pullMenu:this.pullMenu,liftMenu:this.liftMenu,foldMenu:this.foldMenu,unfoldMenu:this.unfoldMenu }
+        this.bindEvent()
+        // 获取昵称
+        getUser(79328210)
+            .then(res => {
+                this.setState({
+                    nikeName: res.data.message
+                })
+                window._wizard.user = res.data.message
+            })
+
+    }
+
+    render() {
+        return (
+            <div className="side-bar" ref={left => this._left = left}>
+                <div className="sidebar-bg">
+                    <ul className="sidebar-nav">
+                        <li className="avatar"><Avatar size={64} src={"http://q1.qlogo.cn/g?b=qq&nk=79328210&s=100"} /></li>
+                        <li className="sign"><span><a href="http://wizardj.cn">{this.state.nikeName}</a></span></li>
+                        <li className="motto"><span>"God was never on your side"</span></li>
+                        <li className="hover-bottom"><NavLink to="/blogs">博文</NavLink></li>
+                        <li className="hover-bottom"><NavLink to="/timeline">归档</NavLink></li>
+                        <li className="hover-bottom"><NavLink to="/tags">标签</NavLink></li>
+                        <li className="hover-bottom"><NavLink to="/logs">日志</NavLink></li>
+                        <li className="hover-bottom" onClick={this.openEditor}><NavLink to="/editorc">写文章</NavLink></li>
+                    </ul>
+                    <ul className="sidebar-social">
+                        <li>
+                            <Tooltip  placement="bottomLeft" title={"花费挺贵的，发邮件就好..."}>
+                                <div>
+                                    <i className="iconfont icon-Blog"></i>
+                                </div>
+                            </Tooltip >
+                        </li>
+                        <li>
+                            <Tooltip  placement="bottom" title={"邮箱：79328210@qq.com"}>
+                                <div>
+                                    <i className="iconfont icon-email"></i>
+                                </div>
+                            </Tooltip >
+                        </li>
+                        <li>
+                            <Tooltip  placement="bottomRight" title={"掘金社区"}>
+                                <a href="https://juejin.im/user/5d2d8a2351882554c007bdcd" text="掘金社区"><i className="iconfont icon-web_xiangxiazhankai"></i></a>
+                            </Tooltip >
+                        </li>
+                        <li>
+                            <Tooltip  placement="bottomRight" title={"同性交友社区"}>
+                                <a href="https://github.com/Wizard-J" text="github"><i className="iconfont icon-github"></i></a>
+                            </Tooltip >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        )
+    }
+
+    bindEvent = ()=>{
         const oleft = this._left;
+        const ocontent = document.getElementsByClassName("content")[0];
+        
         const viewPortWidth = document.body.clientWidth;
         const viewPortHeight = document.body.clientHeight;
         const that = this;
@@ -126,7 +204,6 @@ export default class Left extends Component {
                     if (endWidth <= 0.25 * viewPortWidth || endWidth >= viewPortWidth) return; // 小于25vw的边界,或者大于100vw视口宽度就不要再变化了
                     else {
                         oleft.style.width = endWidth + "px"; // 否则照常将宽度设置为目标宽度
-                        const ocontent = document.getElementsByClassName("content")[0];
                         ocontent.style.transitionDuration = "initial";
                         const colorAlpha = 0.2 + 0.3 / 75 * ( parseFloat(oleft.style.width) / viewPortWidth * 100 )
                         ocontent.style.backgroundColor = "rgba(238, 205, 168, "+colorAlpha+")";
@@ -136,8 +213,8 @@ export default class Left extends Component {
                         that.lrMenu(e, startX)
                     }
                 }
-
             }
+            
         } else {
             // 竖屏手机
             const oleft = this._left;
@@ -147,7 +224,6 @@ export default class Left extends Component {
             oleft.style.transitionDuration = "initial";
             oleft.style.top = "-99vh";
             // 将content页色调恢复
-            const ocontent = document.getElementsByClassName("content")[0];
             ocontent.style.backgroundColor = "rgba(238, 205, 168, 0.2)";
             ocontent.style.left = 0;
             ocontent.style.width = "100vw";
@@ -174,65 +250,8 @@ export default class Left extends Component {
                         that.btMenu(e, startY)
                     }
                 }
-
             }
+            
         }
-
-        // 获取昵称
-        getUser(79328210)
-            .then(res => {
-                this.setState({
-                    nikeName: res.data.message
-                })
-                window.wizard_blog = {
-                    "user" : res.data.message
-                }
-            })
-
-    }
-
-    render() {
-        return (
-            <div className="side-bar" ref={left => this._left = left}>
-                <div className="sidebar-bg">
-                    <ul className="sidebar-nav">
-                        <li className="avatar"><Avatar size={64} src={"http://q1.qlogo.cn/g?b=qq&nk=79328210&s=100"} /></li>
-                        <li className="sign"><span><a href="http://wizardj.cn">{this.state.nikeName}</a></span></li>
-                        <li className="motto"><span>"God was never on your side"</span></li>
-                        <li className="hover-bottom"><NavLink to="/blogs">博文</NavLink></li>
-                        <li className="hover-bottom"><NavLink to="/timeline">归档</NavLink></li>
-                        <li className="hover-bottom"><NavLink to="/tags">标签</NavLink></li>
-                        <li className="hover-bottom"><NavLink to="/logs">日志</NavLink></li>
-                        <li className="hover-bottom" onClick={this.openEditor}><NavLink to="/editorc">写文章</NavLink></li>
-                    </ul>
-                    <ul className="sidebar-social">
-                        <li>
-                            <Popover placement="bottomLeft" content={"花费挺贵的，发邮件就好..."}>
-                                <div>
-                                    <i className="iconfont icon-Blog"></i>
-                                </div>
-                            </Popover>
-                        </li>
-                        <li>
-                            <Popover placement="bottom" content={"邮箱：79328210@qq.com"}>
-                                <div>
-                                    <i className="iconfont icon-email"></i>
-                                </div>
-                            </Popover>
-                        </li>
-                        <li>
-                            <Popover placement="bottomRight" content={"掘金社区"}>
-                                <a href="https://juejin.im/user/5d2d8a2351882554c007bdcd" text="掘金社区"><i className="iconfont icon-web_xiangxiazhankai"></i></a>
-                            </Popover>
-                        </li>
-                        <li>
-                            <Popover placement="bottomRight" content={"同性交友社区"}>
-                                <a href="https://github.com/Wizard-J" text="github"><i className="iconfont icon-github"></i></a>
-                            </Popover>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        )
     }
 }

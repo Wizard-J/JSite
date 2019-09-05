@@ -4,9 +4,12 @@ from django.forms.models import model_to_dict
 
 import json
 
+# 导入日志
+from BlogBackEnd.log_api import logInfo
 
 # 获取标签列表
 def list_tags(request):
+    logInfo(request)
     tags = Tag.objects.order_by("-id")
     result = []
     for tag in tags:
@@ -17,6 +20,7 @@ def list_tags(request):
 
 # 新建标签
 def new_tag(request):
+    logInfo(request)
     name = request.POST['name']
     color = request.POST['color']
     createdBy = request.POST['createdBy']
@@ -31,11 +35,11 @@ def new_tag(request):
 
 # 删除标签
 def del_tag(request):
+    logInfo(request)
     id = request.GET["id"]
     try:
         Tag.objects.get(id=id).delete()
         return HttpResponse(json.dumps({"status":"OK"}))
     except:
         return HttpResponse(json.dumps({"status":"ERROR","message":"Tag ID有误或数据库连接异常"}))
-
 

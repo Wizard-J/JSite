@@ -4,7 +4,7 @@ export default class componentName extends Component {
     render() {
         return (
             <div>
-                <h1>Logs</h1>
+                <h1>尚未开发</h1>
             </div>
         )
     }

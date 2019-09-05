@@ -1,11 +1,10 @@
-.content{
+.content {
     transition-duration: 1s;
-    overflow: hidden;
+    overflow-x: hidden;
     position: absolute;
     top: 0;
     left: 25vw;
     width: 75vw;
     height: 100vh;
-    overflow: hidden;
     background: rgba(102, 90, 77, 0.5);
 }

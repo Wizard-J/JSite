@@ -29,5 +29,4 @@ urlpatterns = [
     path("new/tag", tag_api.new_tag), # 新建标签
     path("list/tags", tag_api.list_tags), # 获取标签列表
     path("del/tag", tag_api.del_tag), # 删除标签
-    
 ]

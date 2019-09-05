@@ -10,6 +10,7 @@ import EditorC from "../../components/EditorC";
 import "./content.scss";
 
 export default class Right extends Component {
+
     render() {
         return (
             <div className="content">
@@ -18,7 +19,7 @@ export default class Right extends Component {
                     <Route path='/timeline' component={TimeLine}/>
                     <Route path='/tags' component={Tags}/>
                     <Route path='/logs' component={Logs}/>
-                    <Route path='/article/:id=?' component={Article}/>
+                    <Route path='/article/:id' component={Article}/>
                     <Route path='/editor' component={Editor}/>
                     <Route path='/editorc' component={EditorC}/>
                 </Switch>
@@ -26,3 +27,4 @@ export default class Right extends Component {
         )
     }
 }
+

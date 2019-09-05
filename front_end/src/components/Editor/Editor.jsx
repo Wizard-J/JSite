@@ -33,7 +33,7 @@ export default class Article extends Component {
             this._editor_textarea.focus();
         }
 
-        window.blog.openEditor();
+        window._wizard.disableMenu();
 
     }
 

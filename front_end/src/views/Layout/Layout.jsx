@@ -12,6 +12,7 @@ export default class Layout extends Component {
 
     componentDidMount(){
         // window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize" , this.orienResize, false);
+        
     }
 
     render() {

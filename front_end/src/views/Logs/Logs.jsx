@@ -60,7 +60,7 @@ export default class componentName extends Component {
                         const path = result.path;
 
                         const logItem = (
-                            <div key={item} className="log-item">
+                            <div key={timestamp+index+""} className="log-item">
                                 <span className="item">[<span className="timestamp">{timestamp}</span>]</span>
                                 <span className="item computer-name">{computerName}</span>
                                 <span className="item os">{os}</span>
@@ -73,7 +73,7 @@ export default class componentName extends Component {
                         else {
                             thisIp = ip;
                             return (
-                                <div className="log-item" key={item}>
+                                <div className="log-item" key={timestamp+index+""}>
                                     <Divider />
                                     <div className="ip">{thisIp}</div>
                                     {logItem}

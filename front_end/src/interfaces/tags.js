@@ -2,7 +2,7 @@ import Axios from "axios";
 
 const cookie = document.cookie;
 const reg = /csrftoken=(?<csrftoken>.+)/;
-const CSRFTOKEN = reg.exec(cookie).groups.csrftoken;
+const CSRFTOKEN = reg.exec(cookie) ? reg.exec(cookie).groups.csrftoken : "";
 
 // 新建标签
 export async function newTag(tagObj) {

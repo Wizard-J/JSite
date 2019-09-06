@@ -105,7 +105,6 @@
       ]
     ]
   },
- 
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",

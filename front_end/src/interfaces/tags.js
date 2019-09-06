@@ -12,15 +12,15 @@ export async function newTag(tagObj) {
     }
     if (!tagObj.createdBy) form.append("createdBy", "佚名")
     form.append("csrfmiddlewaretoken", CSRFTOKEN)
-    return Axios.post("/new/tag", form)
+    return Axios.post("/api/new/tag", form)
 }
 
 // 获取标签列表
 export async function listTags() {
-    return Axios.get("/list/tags")
+    return Axios.get("/api/list/tags")
 }
 
 // 删除标签
 export async function delTag(id) {
-    return Axios.get("/del/tag?id=" + id)
+    return Axios.get("/api/del/tag?id=" + id)
 }

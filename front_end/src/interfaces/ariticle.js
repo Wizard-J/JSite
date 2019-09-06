@@ -5,7 +5,7 @@ import hljs from "highlight.js";
 // 保存各种接口
 const cookie = document.cookie;
 const reg = /csrftoken=(?<csrftoken>.+)/
-const CSRFTOKEN = reg.exec(cookie).groups.csrftoken
+const CSRFTOKEN = reg.exec(cookie) ? reg.exec(cookie).groups.csrftoken : ""
 
 
 // marked相关配置
@@ -36,10 +36,10 @@ export async function newArticle(articleObj) {
     form.append("content", articleObj.content)
     form.append("tagId", articleObj.tagId)
     form.append("csrfmiddlewaretoken", CSRFTOKEN)
-    return Axios.post("/new/article", form)
+    return Axios.post("/api/new/article", form)
 }
 
 // 获取文章列表
 export async function listArticles(pageNum) {
-    return Axios.get("/list/articles?page=" + pageNum)
+    return Axios.get("/api/list/articles?page=" + pageNum)
 }

@@ -48,7 +48,7 @@ export default class componentName extends Component {
 
         const data = this.state.data;
         
-        let date = data ? data[0].createdAt.split(" ")[0] : "1970-01-01"; // 样式选择，每天第一篇文章返回一个时钟样式
+        let date = data && data[0] ? data[0].createdAt.split(" ")[0] : "1970-01-01"; // 样式选择，每天第一篇文章返回一个时钟样式
 
         return (
             <div className="timeline">

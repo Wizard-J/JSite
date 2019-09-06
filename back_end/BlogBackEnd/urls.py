@@ -34,5 +34,4 @@ urlpatterns = [
     path("list/log", log_api.list_log), # 获取日志列表
     path("get/logs", log_api.get_log), # 获取日志列表
 
-
 ]

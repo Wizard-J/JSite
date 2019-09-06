@@ -5,7 +5,7 @@ from DbModel.models import Article, Tag
 import json
 
 # 导入日志
-from BlogBackEnd.log_api import logInfo
+from BlogBackEnd.log_util import logInfo
 
 # 获取文章列表，每一页固定获取10篇文章
 def list_articles(request):

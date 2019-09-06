@@ -135,7 +135,7 @@ export default class Left extends Component {
                         <li className="avatar"><Avatar size={64} src={"http://q1.qlogo.cn/g?b=qq&nk=79328210&s=100"} /></li>
                         <li className="sign"><span><a href="http://wizardj.cn">{this.state.nikeName}</a></span></li>
                         <li className="motto"><span>"God was never on your side"</span></li>
-                        <li className="hover-bottom"><NavLink to="/blogs">博文</NavLink></li>
+                        <li className="hover-bottom"><NavLink to="/">博文</NavLink></li>
                         <li className="hover-bottom"><NavLink to="/timeline">归档</NavLink></li>
                         <li className="hover-bottom"><NavLink to="/tags">标签</NavLink></li>
                         <li className="hover-bottom"><NavLink to="/logs">日志</NavLink></li>

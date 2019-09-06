@@ -5,7 +5,7 @@ from django.forms.models import model_to_dict
 import json
 
 # 导入日志
-from BlogBackEnd.log_api import logInfo
+from BlogBackEnd.log_util import logInfo
 
 # 获取标签列表
 def list_tags(request):

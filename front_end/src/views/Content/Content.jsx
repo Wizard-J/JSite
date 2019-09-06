@@ -15,7 +15,7 @@ export default class Right extends Component {
         return (
             <div className="content">
                 <Switch>
-                    <Route path='/blogs' component={Blogs}/>
+                    <Route exact path='/' component={Blogs}/>
                     <Route path='/timeline' component={TimeLine}/>
                     <Route path='/tags' component={Tags}/>
                     <Route path='/logs' component={Logs}/>

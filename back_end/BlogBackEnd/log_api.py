@@ -1,21 +1,42 @@
+from django.http import HttpResponse
+
 import os
 import time
+import json
 
-log_path = "../logs/log_"+time.strftime("%Y_%m_%d",time.localtime())+".log"
+from BlogBackEnd.log_util import logInfo
 
-# 将request写入message
-def logInfo(request):
-    message = getRequestMessage(request)
-    if not os.path.exists(os.path.split(log_path)[0]): os.makedirs(os.path.split(log_path)[0])  # 如果不存在这个logs文件夹，就自动创建一个
-    with open(log_path,"a+") as log:
-        log.write(message)
+PROJECT_PATH = os.path.abspath("..")
+log_path = os.path.join(PROJECT_PATH,"logs")
 
-
-# 封装全部的完整请求信息
-def getRequestMessage(request):
-    timestamp = time.strftime("[%Y-%m-%d %H:%M:%S]") # 时间戳
-    ip = request.META['REMOTE_ADDR'] # 请求ip
-    method = request.method # 请求方法
-    path = request.path # 请求路径
-    return timestamp+ip+" " + method + " " + path+"\n"
+# 返回全部日志
+def list_log(request):
+    logInfo(request)
+    timestamp = time.strftime("log_%Y_%m_%d.log")
+    result = []
+    if not os.path.exists(log_path):
+        os.makedirs(log_path)
+    with open(os.path.join(log_path,timestamp),"r+") as f:
+        for line in f:
+            result.append(line)
     
+    return HttpResponse(json.dumps({"status":"OK","result":result}))
+
+# 获取请求日期范围内的所有日志信息
+def get_log(request):
+    timeRange = request.GET.getlist("datestring")
+
+    small_time = int(time.mktime(time.strptime(timeRange[0],"%Y-%m-%d")))
+    bigger_time = int(time.mktime(time.strptime(timeRange[1],"%Y-%m-%d")))
+    
+    logs = os.listdir(log_path)
+    result = []
+    # 找到所有目标日志，并写入返回
+    for log in logs:
+        log_time = int(time.mktime(time.strptime(log,"log_%Y_%m_%d.log")))
+        if log_time <= bigger_time and log_time >= small_time:
+            with open(os.path.abspath("../logs/"+log),"r") as reader:
+                for line in reader.readlines():
+                    result.append(line)
+    return HttpResponse(json.dumps({"status":"OK","result":result}))
+

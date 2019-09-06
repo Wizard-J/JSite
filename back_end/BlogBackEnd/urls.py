@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from . import user, article_api, tag_api
+from . import user, article_api, tag_api, log_api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +29,10 @@ urlpatterns = [
     path("new/tag", tag_api.new_tag), # 新建标签
     path("list/tags", tag_api.list_tags), # 获取标签列表
     path("del/tag", tag_api.del_tag), # 删除标签
+
+    # 日志接口
+    path("list/log", log_api.list_log), # 获取日志列表
+    path("get/logs", log_api.get_log), # 获取日志列表
+
+
 ]

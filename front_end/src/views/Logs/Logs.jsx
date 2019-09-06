@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { listLog, getLogs } from "../../interfaces/logs";
 import { Divider, DatePicker } from "antd";
+import Log from "../../local/logUtil";
 
 import "./logs.scss";
-
-
 
 export default class componentName extends Component {
 
@@ -16,11 +15,16 @@ export default class componentName extends Component {
     }
 
     componentWillMount() {
-        listLog()
+        if(Log.getList()){ // 首先尝试从本地缓存读取
+            return this.setState({
+                data:Log.getList()
+            })
+        }
+        listLog() // 从服务器读取
             .then(res => {
-                console.log(res)
-                if (this._UNMOUNTED) return;
                 if (res.data.status === "OK") {
+                    Log.save(res.data.result); // 保存缓存
+                    if (this._UNMOUNTED) return;
                     // 请求成功
                     this.setState({
                         data: res.data.result,
@@ -43,13 +47,6 @@ export default class componentName extends Component {
                     <div>
                         <RangePicker onChange={this.onChange} />
                     </div>
-                    {/*
-                        this.state.history.map((item, index) => {
-                            return (
-                                <a key={item} href="/">{item}</a>
-                            )
-                        })
-                    */}
                 </div>
                 {
                     this.state.data.map((item, index) => {
@@ -93,7 +90,7 @@ export default class componentName extends Component {
         // console.log(new Date(dateString[0]) , new Date(dateString[1]))
         getLogs(dateString)
             .then(res=>{
-                console.log(res)
+                // console.log(res)
                 if(this._UNMOUNTED) return;
                 if(res.data.status==="OK"){
                     // 请求成功

@@ -15,7 +15,7 @@ def list_log(request):
     timestamp = time.strftime("log_%Y_%m_%d.log")
     result = []
     if not os.path.exists(log_path):
-        os.makedirs(log_path)
+        os.makedirs(log_path) 
     with open(os.path.join(log_path,timestamp),"r+") as f:
         for line in f:
             result.append(line)

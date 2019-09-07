@@ -1,11 +1,7 @@
 import Axios from "axios";
 import marked from "marked";
 import hljs from "highlight.js";
-
-// 保存各种接口
-const cookie = document.cookie;
-const reg = /csrftoken=(?<csrftoken>.+)/
-const CSRFTOKEN = reg.exec(cookie) ? reg.exec(cookie).groups.csrftoken : ""
+import { getCSRF } from "./user";
 
 
 // marked相关配置
@@ -18,7 +14,7 @@ marked.setOptions({
     sanitize: true,
     smartLists: true,
     smartypants: false,
-    highlight: function(code) {
+    highlight: function (code) {
         return hljs.highlightAuto(code).value;
     },
 });
@@ -30,13 +26,15 @@ export function markCode(code) {
 
 // 保存文章
 export async function newArticle(articleObj) {
-    const form = new FormData();
-    form.append("title", articleObj.title)
-    form.append("author", articleObj.author ? articleObj.author : "Wizard J")
-    form.append("content", articleObj.content)
-    form.append("tagId", articleObj.tagId)
-    form.append("csrfmiddlewaretoken", CSRFTOKEN)
-    return Axios.post("/api/new/article", form)
+    return getCSRF().then(CSRFTOKEN => {
+        const form = new FormData();
+        form.append("title", articleObj.title)
+        form.append("author", articleObj.author ? articleObj.author : "Wizard J")
+        form.append("content", articleObj.content)
+        form.append("tagId", articleObj.tagId)
+        form.append("csrfmiddlewaretoken", CSRFTOKEN)
+        return Axios.post("/api/new/article", form)
+    })
 }
 
 // 获取文章列表

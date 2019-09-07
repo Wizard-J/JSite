@@ -249,7 +249,7 @@ export default class EditorC extends React.Component {
     }
     newArticle(newItem)
       .then(res=>{
-        console.log(res)
+        // console.log(res)
         if(res.data.status==="OK"){
           message.success("发表成功")
           Article.create(res.data.result);

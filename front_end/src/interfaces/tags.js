@@ -1,18 +1,19 @@
 import Axios from "axios";
+import { getCSRF } from "./user";
 
-const cookie = document.cookie;
-const reg = /csrftoken=(?<csrftoken>.+)/;
-const CSRFTOKEN = reg.exec(cookie) ? reg.exec(cookie).groups.csrftoken : "";
+getCSRF();
 
 // 新建标签
 export async function newTag(tagObj) {
-    const form = new FormData();
-    for (let field in tagObj) {
-        form.append(field, tagObj[field])
-    }
-    if (!tagObj.createdBy) form.append("createdBy", "佚名")
-    form.append("csrfmiddlewaretoken", CSRFTOKEN)
-    return Axios.post("/api/new/tag", form)
+    return getCSRF().then(CSRFTOKEN => {
+        const form = new FormData();
+        for (let field in tagObj) {
+            form.append(field, tagObj[field])
+        }
+        if (!tagObj.createdBy) form.append("createdBy", "佚名")
+        form.append("csrfmiddlewaretoken", CSRFTOKEN)
+        return Axios.post("/api/new/tag", form)
+    })
 }
 
 // 获取标签列表

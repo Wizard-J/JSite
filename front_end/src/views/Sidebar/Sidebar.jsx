@@ -105,6 +105,7 @@ export default class Left extends Component {
             this._left.style.width = "25vw";
             this.foldMenu(); // 向左收起菜单
             ocontent.style.left="25vw";
+            ocontent.style.width="75vw";
         }else{
             this._left.style.width = "100vw";
             this.liftMenu();//上拉菜单到顶部

@@ -18,7 +18,7 @@ def list_log(request):
     if not os.path.exists(log_path):
         os.makedirs(log_path)
     if not os.path.exists(logfile):
-        f = open(logfile,"w+")
+        f = open(logfile,"a+")
         f.close()
     with open(logfile,"r+") as f:
         for line in f.readlines():

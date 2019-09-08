@@ -12,7 +12,8 @@ def list_articles(request):
     logInfo(request)
     pageNum = int(request.GET['page'])  # 获取第几页，返回第(pageNum-1)*10-pageNum*10篇文章
     result = []
-    for article in Article.objects.order_by("-id")[(pageNum-1)*10:10]:
+    # for article in Article.objects.order_by("-id")[(pageNum-1)*10:10]:
+    for article in Article.objects.order_by("-id"):
         item = model_to_dict(article)
         item["createdAt"] = article.createdAt.strftime("%Y-%m-%d %H:%M:%S")
         item["tags"] = model_to_dict(article.tags)

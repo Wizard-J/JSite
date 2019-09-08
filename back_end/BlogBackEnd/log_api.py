@@ -13,10 +13,11 @@ log_path = os.path.join(PROJECT_PATH,"logs")
 def list_log(request):
     logInfo(request)
     timestamp = time.strftime("log_%Y_%m_%d.log")
+    logfile = os.path.join(log_path,timestamp)
     result = []
     if not os.path.exists(log_path):
-        os.makedirs(log_path) 
-    with open(os.path.join(log_path,timestamp),"r+") as f:
+        os.makedirs(log_path)
+    with open(logfile,"w+") as f:
         for line in f:
             result.append(line)
     

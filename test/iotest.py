@@ -1,8 +1,10 @@
 import os
 
-if not os.path.exists("./test.txt"):
-    file =  open("./test.txt","a+")
-    file.write("123")
-    file.close()
-    with open("./test.txt","r+") as f:
-        print(f.read())
+
+file =  open("./test.txt","a+")
+file.write("123\n")
+file.write("123\n")
+file.close()
+with open("./test.txt") as f:
+    for line in f.readlines():
+        print(">>>",line)

@@ -17,11 +17,8 @@ def list_log(request):
     result = []
     if not os.path.exists(log_path):
         os.makedirs(log_path)
-    if not os.path.exists(logfile):
-        f = open(logfile,"a+")
-        f.close()
-    with open(logfile,"r+") as f:
-        for line in f:
+    with open(logfile,"a+") as f:
+        for line in f.readlines():
             result.append(line)
     
     return HttpResponse(json.dumps({"status":"OK","result":result}))

@@ -1,16 +1,15 @@
 import os
 import time
 
-log_path = "../logs/log_"+time.strftime("%Y_%m_%d", time.localtime())+".log"
 
 # 将request写入message
 def logInfo(request):
+    log_path = "../logs/log_"+time.strftime("%Y_%m_%d", time.localtime())+".log"
     message = getRequestMessage(request)
     if not os.path.exists(os.path.split(log_path)[0]):
         os.makedirs(os.path.split(log_path)[0])  # 如果不存在这个logs文件夹，就自动创建一个
     with open(log_path, "a+") as log:
         log.write(message)
-
 
 # 封装全部的完整请求信息
 def getRequestMessage(request):

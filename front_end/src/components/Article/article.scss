@@ -1,5 +1,5 @@
 .article {
-    padding: 0 0.4rem;
+    padding: 0.4rem;
     .post {
         padding: 0.48rem 0;
         .post-info {
@@ -31,24 +31,15 @@
         padding-top: 0.32rem;
         position: relative;
         text-align: center;
-        .right {
-            right: 0;
-        }
-        .arrow {
-            -webkit-transition: all 0.3s ease-out;
-            -moz-transition: all 0.3s ease-out;
-            transition: all 0.3s ease-out;
-            color: #555;
-            position: absolute;
-        }
-        .top {
-            -webkit-transition: all 0.3s ease-out;
-            -moz-transition: all 0.3s ease-out;
-            transition: all 0.3s ease-out;
-            color: #555;
-            font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
-            font-size: 0.177rem;
-            opacity: .6;
+        -webkit-transition: all 0.3s ease-out;
+        -moz-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+        color: #555;
+        font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+        font-size: 0.177rem;
+        opacity: .6;
+        .top{
+            cursor: pointer;
         }
     }
 }

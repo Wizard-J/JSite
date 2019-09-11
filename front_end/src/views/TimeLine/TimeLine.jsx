@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Timeline, Icon } from 'antd';
+import { Timeline, Icon,Tooltip } from 'antd';
 import { listArticles } from "../../interfaces/ariticle"
 import Article from "../../local/articleUtil";
 
@@ -48,7 +48,7 @@ export default class componentName extends Component {
 
         const data = this.state.data;
         
-        let date = data && data[0] ? data[0].createdAt.split(" ")[0] : "1970-01-01"; // 样式选择，每天第一篇文章返回一个时钟样式
+        let date = "1970-01-01"; // 样式选择，每天第一篇文章返回一个时钟样式
 
         return (
             <div className="timeline">
@@ -59,7 +59,9 @@ export default class componentName extends Component {
                             if(thisDate !== date){
                                 date = thisDate; // 新一天
                                 return(
-                                    <Timeline.Item key={item.id} dot={<Icon type="clock-circle-o" style={{ fontSize: '16px' }} />}>{thisDate+" "+item.title}</Timeline.Item>
+                                        <Timeline.Item key={item.id} dot={<Tooltip placement="bottomRight" title={thisDate}><Icon type="clock-circle-o" style={{ fontSize: '16px' }} /></Tooltip>}>
+                                            {item.title}
+                                        </Timeline.Item>
                                 )
                             }else{
                                 return(

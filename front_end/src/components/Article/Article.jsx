@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import { markCode } from "../../interfaces/ariticle";
 import Article from "../../local/articleUtil";
+import Login from "../../components/Login/Login";
 import "./article.scss";
 
 export default class componentName extends Component {
+
+    toTop = ()=>{
+        const content = this._article.parentNode;
+        content.scrollTop = 0;
+    }
 
 
     render() {
@@ -12,7 +18,7 @@ export default class componentName extends Component {
         const article = Article.get(articleId);
 
         return (
-            <div className="article">
+            <div className="article" ref={_article => this._article = _article}>
                 <div className="post">
                     <div className="post-info">
                         <span>Written by</span>
@@ -28,9 +34,9 @@ export default class componentName extends Component {
                     </div>
 
                 </div>
+                <Login></Login>
                 <div className="pagination">
-                    <a href="/tale/2017-03-16/example-content" className="right arrow">→</a>
-                    <a href="/" className="top">Top</a>
+                    <span className="top" onClick={this.toTop}>Top</span>
                 </div>
             </div>
         )

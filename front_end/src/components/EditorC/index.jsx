@@ -10,36 +10,36 @@ import Article from "../../local/articleUtil"
 
 import CodemirrorEditor, {CodemirrorHandler} from '../CodemirrorEditor'
 
-require('codemirror/lib/codemirror.css')
-require('codemirror/theme/solarized.css')
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/solarized.css'
 // 搜索 Ctrl-F (PC), Cmd-F (Mac)
 // 搜索的上一个结果 Shift-Ctrl-G (PC), Shift-Cmd-G (Mac)
 // 搜索的下一个结果 Ctrl-G (PC), Cmd-G (Mac)
 // 替换(replace)   Shift-Ctrl-F (PC), Cmd-Alt-F (Mac)
 // 替换全部(replaceAll)   Shift-Ctrl-R (PC), Shift-Cmd-Alt-F (Mac)
-require('codemirror/addon/search/search')
+import 'codemirror/addon/search/search'
 // 光标跳到第几行 Alt-G，例如输入 9:26，则光标定位到第9行第26列
-require('codemirror/addon/search/jump-to-line')
+import 'codemirror/addon/search/jump-to-line'
 // 搜索或者跳转行数出现的弹出框样式
-require('codemirror/addon/dialog/dialog.css')
+import 'codemirror/addon/dialog/dialog.css'
 // 当输入 '>' 或 '/' 字符的时候, 自动关闭标签
-require('codemirror/addon/edit/closetag')
+import 'codemirror/addon/edit/closetag'
 // 当光标定位于编辑器内，并且按 F11的时候编辑框全屏
-require('codemirror/addon/display/fullscreen')
+import 'codemirror/addon/display/fullscreen'
 // 全屏样式
-require('codemirror/addon/display/fullscreen.css')
+import 'codemirror/addon/display/fullscreen.css'
 
-require('codemirror/mode/javascript/javascript')
-require('codemirror/mode/jsx/jsx')
-require('codemirror/mode/css/css')
-require('codemirror/mode/sass/sass')
-require('codemirror/mode/xml/xml')
-require('codemirror/mode/markdown/markdown')
+import 'codemirror/mode/javascript/javascript'
+import 'codemirror/mode/jsx/jsx'
+import 'codemirror/mode/css/css'
+import 'codemirror/mode/sass/sass'
+import 'codemirror/mode/xml/xml'
+import 'codemirror/mode/markdown/markdown'
 
-// require('../../statics/style/common.css')
-require("../../statics/style/common.scss")
-require('../../statics/style/js-highlight.css')
-require('./style.scss')
+// import '../../statics/style/common.css')
+import "../../statics/style/common.scss"
+import '../../statics/style/js-highlight.css'
+import './style.scss'
 
 highlight.configure({
   tabReplace: '  ',

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { markCode } from "../../interfaces/ariticle";
 import Article from "../../local/articleUtil";
-import Login from "../../components/Login/Login";
+// import Login from "../../components/Login/Login";
 import "./article.scss";
 
 export default class componentName extends Component {
@@ -34,7 +34,7 @@ export default class componentName extends Component {
                     </div>
 
                 </div>
-                <Login></Login>
+                {/* <Login></Login> */}
                 <div className="pagination">
                     <span className="top" onClick={this.toTop}>Top</span>
                 </div>

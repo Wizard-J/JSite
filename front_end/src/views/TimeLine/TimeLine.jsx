@@ -43,13 +43,14 @@ export default class componentName extends Component {
         const color = ["magenta","red","volcano","orange","gold","lime","green","cyan","blue","geekblue","purple"]
         return color[Math.floor(Math.random()*color.length)]
     }
+    
 
     render() {
 
         const data = this.state.data;
         
         let date = "1970-01-01"; // 样式选择，每天第一篇文章返回一个时钟样式
-
+        
         return (
             <div className="timeline">
                 <Timeline mode="alternate">

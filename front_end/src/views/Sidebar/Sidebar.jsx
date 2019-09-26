@@ -102,6 +102,7 @@ export default class Left extends Component {
         const ocontent = document.getElementsByClassName("content")[0];
         if (viewPortHeight <= viewPortWidth) {
             // 横屏
+            this._left.style.transitionDuration="0.3s";
             this._left.style.width = "25vw";
             this.foldMenu(); // 向左收起菜单
             ocontent.style.left="25vw";

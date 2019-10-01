@@ -170,6 +170,7 @@ export default class Left extends Component {
                         </li>
                     </ul>
                 </div>
+                <div id="footer"><a href="http://www.miitbeian.gov.cn/">鄂ICP备18028043号</a></div>
             </div>
         )
     }

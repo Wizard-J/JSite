@@ -17,6 +17,11 @@ export default class componentName extends Component {
     }
 
     componentDidMount() {
+
+        console.log(this._articles.offsetHeight)
+        console.log(document.getElementsByClassName("article-block")[0])
+
+
         this.getArticle(1); // 获取第一页
         if(window._wizard.content_scrollTop){
             setTimeout(()=>{this._articles.scrollTo(0,window._wizard.content_scrollTop)},0)
@@ -46,6 +51,9 @@ export default class componentName extends Component {
     }
 
     render() {
+
+        
+
         return (
             <div className="ariticles" style={{ height: "100%", overflowY: "scroll" }} ref={_articles => this._articles = _articles}>
                 {

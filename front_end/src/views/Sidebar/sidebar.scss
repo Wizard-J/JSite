@@ -71,4 +71,13 @@
             }
         }
     }
+    #footer{
+        position: absolute;
+        bottom: 0.1rem;
+        text-align: center;
+        width: 100%;
+        a{
+            color: #aaa;
+        }
+    }
 }

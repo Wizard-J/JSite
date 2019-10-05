@@ -2,6 +2,9 @@
     padding: 0.4rem;
     .post {
         padding: 0.48rem 0;
+        .content-preview{
+            background-color: inherit;
+        }
         .post-info {
             color: #aaa;
             font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", "Georgia", serif;

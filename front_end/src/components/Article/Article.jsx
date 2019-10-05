@@ -30,7 +30,7 @@ export default class componentName extends Component {
                     <h1 className="post-title">{article.title}</h1>
                     <div className="post-line"></div>
 
-                    <div className="content-preview" dangerouslySetInnerHTML={{__html:markCode(article.content)}} >
+                    <div className="content-preview markdown-body" dangerouslySetInnerHTML={{__html:markCode(article.content)}} >
                     </div>
 
                 </div>

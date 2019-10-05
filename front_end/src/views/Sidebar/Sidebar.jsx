@@ -120,14 +120,22 @@ export default class Left extends Component {
         window._wizard = { disableMenu: this.disableMenu, enableMenu: this.enableMenu, hideMenu: this.hideMenu, pullMenu: this.pullMenu, liftMenu: this.liftMenu, foldMenu: this.foldMenu, unfoldMenu: this.unfoldMenu }
         this.bindEvent()
         // 获取昵称
-        getUser(79328210)
+        let nikename = window.sessionStorage.getItem("nikename") || "";
+        if(!nikename){
+            getUser(79328210)
             .then(res => {
                 this.setState({
                     nikeName: res.data.message
                 })
-                window._wizard.user = res.data.message
+                window.sessionStorage.setItem("nikename",res.data.message);
+                window._wizard.user = res.data.message;
             })
-
+        }else{
+            this.setState({
+                nikeName: nikename
+            })
+            window._wizard.user = nikename;
+        }
     }
 
     render() {

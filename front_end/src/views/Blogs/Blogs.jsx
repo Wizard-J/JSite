@@ -17,30 +17,35 @@ export default class componentName extends Component {
     }
 
     componentDidMount() {
-
-        // console.log(this._articles.offsetHeight)
-        // console.log(document.getElementsByClassName("article-block")[0])
-
-
-        this.getArticle(1); // 获取第一页
-        if(window._wizard.content_scrollTop){ // 异步设置，保证能够正确获取scrollTop
-            setTimeout(()=>{this._articles.scrollTo(0,window._wizard.content_scrollTop)},0)
+        
+        setTimeout(() => {
+            const height = document.getElementsByClassName("article-block")[0] ? getComputedStyle(document.getElementsByClassName("article-block")[0]).height : 0;
+            const articleNum =!!height ? Math.ceil(this._articles.offsetHeight/parseInt(height)) : 4;
+            let start = this.state.data.length;
+            console.log("start:",start,"num:",articleNum*2)// 每次获取2倍首屏能够展示的文章数量
+            this.getArticle(start,articleNum*2); // 获取第一页
+        })
+        if (window._wizard.content_scrollTop) { // 异步设置，保证能够正确获取scrollTop
+            setTimeout(() => { this._articles.scrollTo(0, window._wizard.content_scrollTop) })
         }
     }
 
-    getArticle = pageNum => {
-        if (Article.getList()) {
+    getArticle = (start,pageNum) => {
+        let localArticle = Article.getList();
+        if (localArticle.length > start+pageNum) { // 本地存储
             this.setState({
-                data: Article.getList()
+                data: localArticle
             })
             return;
         }
-        listArticles(pageNum).then(res => {
-            if (this._UNMOUNTED) return;
+        listArticles(start,pageNum).then(res => {
             if (res.data.status === "OK") { // 请求成功
-                Article.save(res.data.result);
+                localArticle = localArticle.concat(res.data.result);
+                Article.save(localArticle);
+
+                if (this._UNMOUNTED) return;
                 this.setState({
-                    data: res.data.result
+                    data: localArticle
                 })
             }
         })
@@ -50,8 +55,6 @@ export default class componentName extends Component {
     }
 
     render() {
-
-        
 
         return (
             <div className="ariticles" style={{ height: "100%", overflowY: "scroll" }} ref={_articles => this._articles = _articles}>

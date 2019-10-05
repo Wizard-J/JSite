@@ -14,7 +14,7 @@ export default class componentName extends Component {
         history: []
     }
 
-    componentWillMount() {
+    componentDidMount() {
         if(Log.getList()){ // 首先尝试从本地缓存读取
             return this.setState({
                 data:Log.getList()
@@ -41,6 +41,7 @@ export default class componentName extends Component {
     render() {
         const { RangePicker } = DatePicker;
         let thisIp = -1; // 初始化人员计数
+        const data = this.state.data;
         return (
             <div className="logs">
                 <div className="history">
@@ -49,7 +50,7 @@ export default class componentName extends Component {
                     </div>
                 </div>
                 {
-                    this.state.data.map((item, index) => {
+                    data && data.map((item, index) => {
                         const reg = /(?<ip>\d{1,3}\.\d{1,3}\.\d{1,3}.\d{1,3}):\[(?<timestamp>[\d-:\s]+)\] (?<computerName>[\S-]+) (?<os>\S+) (?<method>\S+) (?<path>\S+)/;
                         const result = reg.exec(item).groups;
                         const ip = result.ip;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Avatar , Tooltip } from 'antd';
+import { Avatar, Tooltip } from 'antd';
 import { NavLink } from "react-router-dom";
 import { getUser } from "../../interfaces/user"
 
@@ -78,7 +78,7 @@ export default class Left extends Component {
     }
 
     // 向右隐藏菜单，打开编辑器
-    hideMenu = e =>{
+    hideMenu = e => {
         const oleft = this._left;
         const ocontent = document.getElementsByClassName("content")[0];
         ocontent.style.left = "0";
@@ -90,33 +90,34 @@ export default class Left extends Component {
 
 
     // 禁用菜单
-    disableMenu = e =>{
+    disableMenu = e => {
         window.onmousewheel = null; // 锁定菜单
         this.hideMenu();
     }
 
     // 激活菜单
-    enableMenu = e=>{
+    enableMenu = e => {
         const viewPortWidth = document.body.clientWidth;
         const viewPortHeight = document.body.clientHeight;
         const ocontent = document.getElementsByClassName("content")[0];
         if (viewPortHeight <= viewPortWidth) {
             // 横屏
-            this._left.style.transitionDuration="0.3s";
+            this._left.style.transitionDuration = "0.3s";
             this._left.style.width = "25vw";
             this.foldMenu(); // 向左收起菜单
-            ocontent.style.left="25vw";
-            ocontent.style.width="75vw";
-        }else{
+            ocontent.style.left = "25vw";
+            ocontent.style.width = "75vw";
+        } else {
             this._left.style.width = "100vw";
             this.liftMenu();//上拉菜单到顶部
-            ocontent.style.left="0";
+            ocontent.style.left = "0";
         }
     }
 
     componentDidMount() {
+        this.blinkwords("\"God was never on your side\"")
         // 将封装好的事件存储到window对象下，供其他组件使用
-        window._wizard = { disableMenu:this.disableMenu,enableMenu:this.enableMenu,hideMenu:this.hideMenu,pullMenu:this.pullMenu,liftMenu:this.liftMenu,foldMenu:this.foldMenu,unfoldMenu:this.unfoldMenu }
+        window._wizard = { disableMenu: this.disableMenu, enableMenu: this.enableMenu, hideMenu: this.hideMenu, pullMenu: this.pullMenu, liftMenu: this.liftMenu, foldMenu: this.foldMenu, unfoldMenu: this.unfoldMenu }
         this.bindEvent()
         // 获取昵称
         getUser(79328210)
@@ -136,7 +137,7 @@ export default class Left extends Component {
                     <ul className="sidebar-nav">
                         <li className="avatar"><Avatar size={64} src={"http://q1.qlogo.cn/g?b=qq&nk=79328210&s=100"} /></li>
                         <li className="sign"><span><a href="http://wizardj.cn">{this.state.nikeName}</a></span></li>
-                        <li className="motto"><span>"God was never on your side"</span></li>
+                        <li className="motto" ref={_sign => this._sign = _sign}><span>"God was never on your side"</span></li>
                         <li className="hover-bottom"><NavLink to="/">博文</NavLink></li>
                         <li className="hover-bottom"><NavLink to="/timeline">归档</NavLink></li>
                         <li className="hover-bottom"><NavLink to="/tags">标签</NavLink></li>
@@ -145,26 +146,26 @@ export default class Left extends Component {
                     </ul>
                     <ul className="sidebar-social">
                         <li>
-                            <Tooltip  placement="bottomLeft" title={"花费挺贵的，发邮件就好..."}>
+                            <Tooltip placement="bottomLeft" title={"话费挺贵的，发邮件就好..."}>
                                 <div>
                                     <i className="iconfont icon-Blog"></i>
                                 </div>
                             </Tooltip >
                         </li>
                         <li>
-                            <Tooltip  placement="bottom" title={"邮箱：79328210@qq.com"}>
+                            <Tooltip placement="bottom" title={"邮箱：79328210@qq.com"}>
                                 <div>
                                     <i className="iconfont icon-email"></i>
                                 </div>
                             </Tooltip >
                         </li>
                         <li>
-                            <Tooltip  placement="bottomRight" title={"掘金社区"}>
+                            <Tooltip placement="bottomRight" title={"掘金社区"}>
                                 <a href="https://juejin.im/user/5d2d8a2351882554c007bdcd" text="掘金社区"><i className="iconfont icon-web_xiangxiazhankai"></i></a>
                             </Tooltip >
                         </li>
                         <li>
-                            <Tooltip  placement="bottomRight" title={"同性交友社区"}>
+                            <Tooltip placement="bottomRight" title={"同性交友社区"}>
                                 <a href="https://github.com/Wizard-J" text="github"><i className="iconfont icon-github"></i></a>
                             </Tooltip >
                         </li>
@@ -175,10 +176,53 @@ export default class Left extends Component {
         )
     }
 
-    bindEvent = ()=>{
+    // 签名动画
+    blinkwords = (str) => {
+
+        let content = this._sign;
+        let strArr = str.split("\n")
+        let wordArr = []
+        strArr.forEach((item, index) => {
+            wordArr = wordArr.concat(item.split(""))
+            if (index !== strArr.length - 1) {
+                wordArr.push("<br/>")
+            }
+        })
+
+        wordArr = wordArr.map((item, index) => {
+            if (item === " ") return '<span class="word color">&nbsp;</span>'
+            else if (item === "<") return '<span class="word color"><</span>'
+            else if (item === ">") return '<span class="word color">></span>'
+            else if (item === "<br/>") return '<br/>'
+            else return '<span class="word color">' + item + '</span>'
+        })
+
+        // 数据准备完毕
+        let _innerHtml = '';
+        let store = "";
+        let _end = '<span class="blink" id="jsBlink">|</span>';
+        (
+            async function _print() {
+                for (let i = 0; i < wordArr.length; i++) {
+                    let item = wordArr[i];
+                    await new Promise((resolve) => {
+                        setTimeout(resolve, 200);
+                    });
+                    store += item;
+                    _innerHtml = store + _end;
+                    content.innerHTML = _innerHtml
+                }
+            }
+
+        )()
+    }
+
+
+
+    bindEvent = () => {
         const oleft = this._left;
         const ocontent = document.getElementsByClassName("content")[0];
-        
+
         const viewPortWidth = document.body.clientWidth;
         const viewPortHeight = document.body.clientHeight;
         const that = this;
@@ -208,16 +252,16 @@ export default class Left extends Component {
                     else {
                         oleft.style.width = endWidth + "px"; // 否则照常将宽度设置为目标宽度
                         ocontent.style.transitionDuration = "initial";
-                        const colorAlpha = 0.2 + 0.3 / 75 * ( parseFloat(oleft.style.width) / viewPortWidth * 100 )
-                        ocontent.style.backgroundColor = "rgba(238, 205, 168, "+colorAlpha+")";
-                     }  
+                        const colorAlpha = 0.2 + 0.3 / 75 * (parseFloat(oleft.style.width) / viewPortWidth * 100)
+                        ocontent.style.backgroundColor = "rgba(238, 205, 168, " + colorAlpha + ")";
+                    }
 
                     if (e.clientX < 0 || e.clientY < 0 || e.clientX > viewPortWidth || e.clientY > viewPortHeight) { // 鼠标离开视口
                         that.lrMenu(e, startX)
                     }
                 }
             }
-            
+
         } else {
             // 竖屏手机
             const oleft = this._left;
@@ -254,7 +298,7 @@ export default class Left extends Component {
                     }
                 }
             }
-            
+
         }
     }
 }

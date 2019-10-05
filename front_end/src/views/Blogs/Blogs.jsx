@@ -18,14 +18,13 @@ export default class componentName extends Component {
 
     componentDidMount() {
 
-        console.log(this._articles.offsetHeight)
-        console.log(document.getElementsByClassName("article-block")[0])
+        // console.log(this._articles.offsetHeight)
+        // console.log(document.getElementsByClassName("article-block")[0])
 
 
         this.getArticle(1); // 获取第一页
-        if(window._wizard.content_scrollTop){
+        if(window._wizard.content_scrollTop){ // 异步设置，保证能够正确获取scrollTop
             setTimeout(()=>{this._articles.scrollTo(0,window._wizard.content_scrollTop)},0)
-            
         }
     }
 

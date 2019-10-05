@@ -149,5 +149,8 @@
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"
     ]
+  },
+  "devDependencies": {
+    "compression-webpack-plugin": "^3.0.0"
   }
 }

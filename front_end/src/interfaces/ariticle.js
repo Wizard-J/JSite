@@ -38,6 +38,6 @@ export async function newArticle(articleObj) {
 }
 
 // 获取文章列表
-export async function listArticles(start,pageNum) {
-    return Axios.get("/api/list/articles?page=" + pageNum + "&start=" + start)
+export async function listArticles(offset,limit) {
+    return Axios.get("/api/list/articles?limit=" + limit + "&offset=" + offset)
 }

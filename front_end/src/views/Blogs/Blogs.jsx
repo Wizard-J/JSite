@@ -10,6 +10,7 @@ export default class componentName extends Component {
 
     state = {
         data: [],
+        limit: 0
     }
     componentWillUnmount() {
         this._UNMOUNTED = true;
@@ -20,27 +21,30 @@ export default class componentName extends Component {
         
         setTimeout(() => {
             const height = document.getElementsByClassName("article-block")[0] ? getComputedStyle(document.getElementsByClassName("article-block")[0]).height : 0;
-            const articleNum =!!height ? Math.ceil(this._articles.offsetHeight/parseInt(height)) : 4;
-            let start = this.state.data.length;
-            console.log("start:",start,"num:",articleNum*2)// 每次获取2倍首屏能够展示的文章数量
-            this.getArticle(start,articleNum*2); // 获取第一页
+            const limit =!!height ? Math.ceil(this._articles.offsetHeight/parseInt(height)) : 4;
+            this.setState({limit})
+            let offset = this.state.data.length;
+            // console.log("offset:",offset,"limit:",limit*2)// 每次获取2倍首屏能够展示的文章数量
+            this.getArticle(offset,limit*2); // 获取第一页
         })
         if (window._wizard.content_scrollTop) { // 异步设置，保证能够正确获取scrollTop
             setTimeout(() => { this._articles.scrollTo(0, window._wizard.content_scrollTop) })
         }
+
     }
 
-    getArticle = (start,pageNum) => {
+    getArticle = (offset,limit) => {
         let localArticle = Article.getList();
-        if (localArticle.length > start+pageNum) { // 本地存储
+
+        if (localArticle && localArticle.length >= offset+limit) { // 本地存储
             this.setState({
                 data: localArticle
             })
             return;
         }
-        listArticles(start,pageNum).then(res => {
+        listArticles(offset,limit).then(res => {
             if (res.data.status === "OK") { // 请求成功
-                localArticle = localArticle.concat(res.data.result);
+                localArticle = localArticle ? localArticle.concat(res.data.result) : res.data.result;
                 Article.save(localArticle);
 
                 if (this._UNMOUNTED) return;
@@ -52,6 +56,14 @@ export default class componentName extends Component {
             .catch(err => {
                 console.log(err)
             })
+    }
+
+    // 当页面滚动到剩下一个block的时候，再次发起请求，下一页
+    requestMore = ()=>{
+        const data = this.state.data;
+        const offset = data ? data.length : 0;
+        const limit = this.state.limit;
+
     }
 
     render() {

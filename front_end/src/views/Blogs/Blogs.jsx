@@ -35,18 +35,14 @@ export default class componentName extends Component {
             let offset = this.state.data.length;
             // console.log("offset:",offset,"limit:",limit*2)// 每次获取2倍首屏能够展示的文章数量
             this.getArticle(offset, limit * 2); // 获取第一页
-
             this._articles.onscroll = () => {
-                let _articleBlock = document.getElementsByClassName("article-block")[0];
-                if (this._articles.scrollHeight - (this._articles.scrollTop + viewHeight) <= parseInt(getComputedStyle(_articleBlock).height)) {
-                    this.requestMore();
+                if (this._articles.scrollHeight - (this._articles.scrollTop + viewHeight) <= 0) {
+                    this.requestMore()
                 }
             }
         })
-
-
-
     }
+
 
     getArticle = (offset, limit) => {
         let localArticle = Article.getList();
@@ -59,9 +55,9 @@ export default class componentName extends Component {
         }
         listArticles(offset, limit).then(res => {
             if (res.data.status === "OK") { // 请求成功
+                if(res.data.result && res.data.result.length < limit ) this._articles.onscroll = null;
                 localArticle = localArticle ? localArticle.concat(res.data.result) : res.data.result;
                 Article.save(localArticle);
-
                 if (this._UNMOUNTED) return;
                 this.setState({
                     data: localArticle
@@ -73,20 +69,14 @@ export default class componentName extends Component {
             })
     }
 
+    // 需要被节流的 函数
     // 当页面滚动到剩下一个block的时候，再次发起请求，下一页,重新绑定scroll事件
     requestMore = () => {
-        let timer = null;
-        let that = this;
-        if (!timer) {
-            console.log(timer)
-            timer = setTimeout(function () {
-                const data = that.state.data;
-                const offset = data ? data.length : 0;
-                const limit = that.state.limit;
-                console.log("request more:", offset, limit)
-                // this.getArticle(offset, limit); // 请求新的文章
-            }, 1000)
-        }
+        console.log("request more")
+        const data = this.state.data;
+        const offset = data ? data.length : 0;
+        const limit = this.state.limit;
+        this.getArticle(offset, limit); // 请求新的文章
     }
 
     render() {

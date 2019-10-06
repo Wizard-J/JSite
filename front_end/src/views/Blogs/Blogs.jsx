@@ -72,7 +72,7 @@ export default class componentName extends Component {
     // 需要被节流的 函数
     // 当页面滚动到剩下一个block的时候，再次发起请求，下一页,重新绑定scroll事件
     requestMore = () => {
-        console.log("request more")
+        // console.log("request more")
         const data = this.state.data;
         const offset = data ? data.length : 0;
         const limit = this.state.limit;

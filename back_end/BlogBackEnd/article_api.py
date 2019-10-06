@@ -13,13 +13,12 @@ def list_articles(request):
     offset = int(request.GET["offset"])
     limit = int(request.GET['limit'])  # 获取第几页，返回第(pageNum-1)*10-pageNum*10篇文章
     result = []
-    for article in Article.objects.order_by("-id")[offset:limit]:
+    for article in Article.objects.order_by("-id")[offset:offset+limit]:
     # for article in Article.objects.order_by("-id"):
         item = model_to_dict(article)
         item["createdAt"] = article.createdAt.strftime("%Y-%m-%d %H:%M:%S")
         item["tags"] = model_to_dict(article.tags)
         result.append(item)
-    print("\n>>>",result)
     return HttpResponse(json.dumps({"status": "OK", "result": result}))
 
 # 新建文章

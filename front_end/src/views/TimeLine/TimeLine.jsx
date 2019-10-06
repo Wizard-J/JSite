@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Timeline, Icon,Tooltip } from 'antd';
-import { listArticles } from "../../interfaces/ariticle"
-import Article from "../../local/articleUtil";
+import { getTimeline } from "../../interfaces/ariticle"
+import TimelineUtil from "../../local/timelineUtil";
 
 import "./timeline.scss";
 
@@ -17,18 +17,19 @@ export default class componentName extends Component {
         this._UNMOUNTED = true;
     }
 
-    componentDidMount(){ //从本地缓存获取数据
-        if(Article.getList()){
+    componentDidMount(){ 
+        //从本地缓存获取数据
+        if(TimelineUtil.getList()){
             this.setState({
-                data:Article.getList()
+                data:TimelineUtil.getList()
             })
             return;
         }else{
             // 从服务器获取
-            listArticles(1)
+            getTimeline()
                 .then(res=>{
                     if(res.data.status === "OK"){
-                        Article.save(res.data.result)
+                        TimelineUtil.save(res.data.result)
                         if(this._UNMOUNTED) return; // 请求已过期
                         this.setState({
                             data: res.data.result

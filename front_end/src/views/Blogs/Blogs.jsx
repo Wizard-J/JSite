@@ -21,10 +21,12 @@ export default class componentName extends Component {
 
         setTimeout(() => {
             // 返回页面时获取到之前的页面位置
-            if (window._wizard.content_scrollTop) { // 异步设置，保证能够正确获取scrollTop
-                this._articles.scrollTo(0, window._wizard.content_scrollTop)
-            }
-
+            setTimeout(() => {
+                if (window._wizard.content_scrollTop) { // 异步设置，保证能够正确获取scrollTop
+                    // console.log("back to scroll")
+                    this._articles.scrollTo(0, window._wizard.content_scrollTop)
+                }
+            })
             // 懒加载
             const viewHeight = this._articles.offsetHeight;
             const articleBlock = document.getElementsByClassName("article-block")[0];
@@ -55,7 +57,7 @@ export default class componentName extends Component {
         }
         listArticles(offset, limit).then(res => {
             if (res.data.status === "OK") { // 请求成功
-                if(res.data.result && res.data.result.length < limit ) this._articles.onscroll = null;
+                if (res.data.result && res.data.result.length < limit) this._articles.onscroll = null;
                 localArticle = localArticle ? localArticle.concat(res.data.result) : res.data.result;
                 Article.save(localArticle);
                 if (this._UNMOUNTED) return;

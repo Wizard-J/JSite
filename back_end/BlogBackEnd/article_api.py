@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.forms.models import model_to_dict
-from DbModel.models import Article, Tag
+from DbModel.models import Article, Tag, Timeline
 
 import json
 
@@ -40,3 +40,12 @@ def new_article(request):
     except:
         return HttpResponse(json.dumps({"status": "ERROR", "message": "数据库错误或服务器异常"}))
 
+# 获取归档信息
+def get_timeline(request):
+    print(">>>getTimeline")
+    result = []
+    for article in Timeline.objects.order_by("-id"):
+        item = model_to_dict(article)
+        item["createdAt"] = article.createdAt.strftime("%Y-%m-%d %H:%M:%S")
+        result.append(item)
+    return HttpResponse(json.dumps({"status":"OK", "result":result}))

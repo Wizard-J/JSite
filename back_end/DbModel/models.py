@@ -11,8 +11,21 @@ class Article(models.Model):
     createdBy = models.CharField(max_length=50) # 创建者
     
     def __str__(self):
-        return self.title;
+        return self.title
 
+
+# 归档对象类
+class Timeline(models.Model):
+    title = models.CharField(max_length=1000,default="未命名") # 文章名称
+    author = models.CharField(max_length=50,default="未署名") # 文章作者
+    tags = models.ForeignKey("Tag", to_field="id", on_delete=models.CASCADE) # 标签 每个文章可以有多个标签
+    createdAt = models.DateTimeField("创建时间",auto_now_add=True) # 创建时间
+    createdBy = models.CharField(max_length=50) # 创建者
+    
+    def __str__(self):
+        return self.title
+    class Meta:
+        db_table = "DbModel_timeline"
 
 # 标签类
 class Tag(models.Model):
@@ -22,4 +35,4 @@ class Tag(models.Model):
     createdBy = models.CharField(max_length=50) # 创建者
 
     def __str__(self):
-        return self.name;
+        return self.name

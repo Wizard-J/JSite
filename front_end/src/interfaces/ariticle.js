@@ -41,3 +41,8 @@ export async function newArticle(articleObj) {
 export async function listArticles(offset,limit) {
     return Axios.get("/api/list/articles?limit=" + limit + "&offset=" + offset)
 }
+
+// 获取归档信息
+export async function getTimeline(){
+    return Axios.get("/api/get/timeline")
+}

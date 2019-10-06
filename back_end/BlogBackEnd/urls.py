@@ -19,7 +19,8 @@ from . import user, article_api, tag_api, log_api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('get/sign', user.get_sign),
+    # 第三方接口
+    path('get/sign', user.get_sign), # 通过qq号获取昵称和头像
 
     # 文章接口
     path("new/article", article_api.new_article), # 新建文章
@@ -33,5 +34,9 @@ urlpatterns = [
     # 日志接口
     path("list/log", log_api.list_log), # 获取日志列表
     path("get/logs", log_api.get_log), # 获取日志列表
+
+    # 归档接口
+    path("get/timeline", article_api.get_timeline), # 获取日志列表
+
 
 ]

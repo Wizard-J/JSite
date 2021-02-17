@@ -1,12 +1,7 @@
-import React, { Component } from 'react';
+import { Spin } from 'antd';
+import React, { Component , lazy, Suspense} from 'react';
 import { Switch, Route } from "react-router-dom";
-import Blogs from "../Blogs/Blogs";
-import TimeLine from "../TimeLine/TimeLine";
-import Tags from "../Tags/Tags";
-import Logs from "../Logs/Logs";
-import Article from "../../components/Article/Article";
-import Editor from "../../components/Editor/Editor";
-import EditorC from "../../components/EditorC";
+
 import "./content.scss";
 
 export default class Right extends Component {
@@ -14,15 +9,17 @@ export default class Right extends Component {
     render() {
         return (
             <div className="content">
-                <Switch>
-                    <Route exact path='/' component={Blogs}/>
-                    <Route path='/timeline' component={TimeLine}/>
-                    <Route path='/tags' component={Tags}/>
-                    <Route path='/logs' component={Logs}/>
-                    <Route path='/article/:id' component={Article}/>
-                    <Route path='/editor' component={Editor}/>
-                    <Route path='/editorc' component={EditorC}/>
-                </Switch>
+                <Suspense fallback={<Spin/>}>
+                    <Switch>
+                        <Route exact path='/' component={lazy(()=>import("../Blogs/Blogs"))}/>
+                        <Route path='/timeline' component={lazy(()=>import("../TimeLine/TimeLine"))}/>
+                        <Route path='/tags' component={lazy(()=>import("../Tags/Tags"))}/>
+                        <Route path='/logs' component={lazy(()=>import("../Logs/Logs"))}/>
+                        <Route path='/article/:id' component={lazy(()=>import("../../components/Article/Article"))}/>
+                        <Route path='/editor' component={lazy(()=>import("../../components/Editor/Editor"))}/>
+                        <Route path='/editorc' component={lazy(()=>import("../../components/EditorC"))}/>
+                    </Switch>
+                </Suspense>
             </div>
         )
     }

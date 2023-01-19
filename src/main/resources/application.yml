@@ -1,0 +1,12 @@
+spring:
+  application:
+    # 应用名称
+    name: blog
+#  mvc:
+#    static-path-pattern: /static/**
+#    resources:
+#      static-locations: /META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+
+server:
+  # 访问端口号
+  port: 80

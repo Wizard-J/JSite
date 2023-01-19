@@ -1,0 +1,1 @@
+{"version":3,"sources":["D:\\project\\blog\\frontend/src\\views\\TimeLine\\timeline.scss"],"names":[],"mappings":"AAAA,UACE,iBAAmB,CACnB,YAAa,CACb,kBAAmB,CACnB,4BAA6B,CAC7B,gBAAiB","file":"12.67c88f4f.chunk.css","sourcesContent":[".timeline {\n  padding-top: 0.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: space-around;\n  min-height: 100vh;\n\n}"]}

@@ -5,7 +5,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 # 修复忽略排除日志视图模块
-!/front_end/src/views/Logs 
+!/front_end/src/views/Logs
+
+# 编译文件不提交
+target
 
 
 # Runtime data

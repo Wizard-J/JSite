@@ -1,1 +1,0 @@
-{"version":3,"sources":["D:\\project\\blog\\frontend/src\\views\\Tags\\tags.scss"],"names":[],"mappings":"AAAA,MACE,aAAe,CADjB,eAII,iBAAkB","file":"10.b64a85ec.chunk.css","sourcesContent":[".tags {\n  padding: 0.3rem;\n\n  .ant-tag {\n    margin-bottom: 8px;\n  }\n}"]}

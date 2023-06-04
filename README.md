@@ -1,2 +1,2 @@
 # JSite
-blog_site_with_SpringBoot_React
+JSite
